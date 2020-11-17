@@ -1,0 +1,42 @@
+﻿<!-- Nav Item - Menu Tài Khoản -->
+<div class="sidebar-heading">
+    Tài khoản
+</div>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#">
+        <i class="fas fa-user"></i>
+        <span>Hồ sơ tài khoản</span>
+    </a>
+</li>
+
+<!-- Nav Item - Menu trà sữa -->
+<hr class="sidebar-divider">
+<div class="sidebar-heading">
+    Sản Phẩm
+</div>
+
+<!-- Nav Item - Menu Phân loại sản phẩm -->
+@{
+    List<milkTea.Models.Category> categories = new milkTea.Models.ModelController.ProductModel().allCategory();
+
+}
+@foreach (var item in categories)
+{
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+            <i class="fas fa-star"></i>
+            <span>@item.CatName</span>
+        </a>
+    </li>
+}
+
+<hr class="sidebar-divider">
+<div class="sidebar-heading">
+    Giỏ hàng
+</div>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Giỏ hàng</span>
+    </a>
+</li>
