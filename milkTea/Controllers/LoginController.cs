@@ -35,5 +35,10 @@ namespace milkTea.Controllers
             }
             return View(us);
         }
+        public ActionResult Logout()
+        {
+            Session["user"] = null;
+            return RedirectToAction("index", "home");
+        }
     }
 }

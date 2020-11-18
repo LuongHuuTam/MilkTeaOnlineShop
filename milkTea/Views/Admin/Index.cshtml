@@ -1,8 +1,40 @@
-﻿
+﻿@model milkTea.Models.User_Accounts
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
+<div class="info-a">Thông tin tài khoản Admin</div>
+<hr />
+<div>
+    <div body-1>
+        <div class="profile-card">
+            <div class="header-card">
+                <div class="pic">
+                    <img src="/Assets/profile.png" alt="">
+                </div>
+                <div class="name">@Model.FirstName @Model.LastName</div>
+                <div class="epa">Email: @Model.Email</div>
+                <div class="epa">Số điện thoại: @Model.PhoneNumber</div>
+                <div class="epa">Địa chỉ: @Model.Address</div>
+            </div>
+            <div class="footer-card">
+                <div class="number">
+                    <div class="item-profile">
+                        <span><a href="#">Quản lí tài khoản</a></span>
+                        
+                    </div>
+                    <div class="border-profile"></div>
+                    <div class="item-profile">
+                        <span><a href="#">Quản lí danh mục sản phẩm</a></span>
+                        
+                    </div>
+                    <div class="border-profile"></div>
+                    <div class="item-profile">
+                        <span><a href="#">Quản lí sản phẩm</a></span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
