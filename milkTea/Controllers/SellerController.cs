@@ -14,6 +14,7 @@ namespace milkTea.Controllers
         public ActionResult Index()
         {
             ViewBag.Type = ViewBag.Controller = "Seller";
+            
             return View();
         }
     }

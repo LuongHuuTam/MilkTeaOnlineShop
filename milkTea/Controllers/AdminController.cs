@@ -1,4 +1,5 @@
-﻿using milkTea.Models.ModelController;
+﻿using milkTea.Models;
+using milkTea.Models.ModelController;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace milkTea.Controllers
         {
             ViewBag.Type = "Admin";
             ViewBag.Controller = "Admin";
-            return View();
+            User_Accounts user = HttpContext.Session["user"] as User_Accounts;
+            return View(user);
         }
     }
 }
