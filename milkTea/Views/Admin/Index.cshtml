@@ -10,7 +10,7 @@
         <div class="profile-card">
             <div class="header-card">
                 <div class="pic">
-                    <img src="/Assets/profile.png" alt="">
+                    <img src="@Model.Avatar_url" alt="">
                 </div>
                 <div class="name">@Model.FirstName @Model.LastName</div>
                 <div class="epa">Email: @Model.Email</div>
@@ -20,17 +20,17 @@
             <div class="footer-card">
                 <div class="number">
                     <div class="item-profile">
-                        <span><a href="#">Quản lí tài khoản</a></span>
+                        <span><a href="/admin/manageaccount">Quản lí tài khoản</a></span>
                         
                     </div>
                     <div class="border-profile"></div>
                     <div class="item-profile">
-                        <span><a href="#">Quản lí danh mục sản phẩm</a></span>
+                        <span><a href="/admin/managecategory">Quản lí danh mục sản phẩm</a></span>
                         
                     </div>
                     <div class="border-profile"></div>
                     <div class="item-profile">
-                        <span><a href="#">Quản lí sản phẩm</a></span>
+                        <span><a href="/admin/manageproduct">Quản lí sản phẩm</a></span>
                         
                     </div>
                 </div>

@@ -12,7 +12,7 @@ namespace milkTea.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Size()
         {
-            product_detail = new HashSet<product_detail>();
+            Products_detail = new HashSet<Products_detail>();
         }
 
         [Key]
@@ -20,6 +20,6 @@ namespace milkTea.Models
         public string SizeName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<product_detail> product_detail { get; set; }
+        public virtual ICollection<Products_detail> Products_detail { get; set; }
     }
 }

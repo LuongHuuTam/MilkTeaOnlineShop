@@ -12,18 +12,17 @@ namespace milkTea.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            Products = new HashSet<Product>();
+            Products_detail = new HashSet<Products_detail>();
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CatId { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string CatName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Products_detail> Products_detail { get; set; }
     }
 }

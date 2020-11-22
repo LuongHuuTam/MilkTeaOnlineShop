@@ -20,7 +20,9 @@ namespace milkTea.Models
 
         public int Amount { get; set; }
 
-        public virtual Product Product { get; set; }
+        public bool? Status { get; set; }
+
+        public virtual Products_detail Products_detail { get; set; }
 
         public virtual User_Accounts User_Accounts { get; set; }
     }

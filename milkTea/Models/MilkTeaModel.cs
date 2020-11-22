@@ -1,10 +1,10 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Linq;
+
 namespace milkTea.Models
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public partial class MilkTeaModel : DbContext
     {
         public MilkTeaModel()
@@ -12,50 +12,48 @@ namespace milkTea.Models
         {
         }
 
-        public virtual DbSet<Acc_Sell_Pro> Acc_Sell_Pro { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<product_detail> product_detail { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<DeliveryProduct> DeliveryProducts { get; set; }
+        public virtual DbSet<Products_detail> Products_detail { get; set; }
         public virtual DbSet<Size> Sizes { get; set; }
         public virtual DbSet<User_Accounts> User_Accounts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Acc_Sell_Pro>()
-                .Property(e => e.Username)
-                .IsFixedLength();
-
             modelBuilder.Entity<Cart>()
                 .Property(e => e.Username)
                 .IsFixedLength();
 
-            modelBuilder.Entity<product_detail>()
-                .Property(e => e.SizeName)
-                .IsFixedLength()
-                .IsUnicode(false);
+            modelBuilder.Entity<DeliveryProduct>()
+                .Property(e => e.Seller)
+                .IsFixedLength();
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<DeliveryProduct>()
+                .Property(e => e.Customer)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Products_detail>()
+                .Property(e => e.Seller)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Products_detail>()
                 .Property(e => e.Imgage_url)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Product>()
-                .Property(e => e.Desciption)
+            modelBuilder.Entity<Products_detail>()
+                .Property(e => e.Size)
+                .IsFixedLength()
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Acc_Sell_Pro)
-                .WithRequired(e => e.Product)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Products_detail>()
                 .HasMany(e => e.Carts)
-                .WithRequired(e => e.Product)
+                .WithRequired(e => e.Products_detail)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.product_detail)
-                .WithRequired(e => e.Product)
+            modelBuilder.Entity<Products_detail>()
+                .HasMany(e => e.DeliveryProducts)
+                .WithRequired(e => e.Products_detail)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Size>()
@@ -64,9 +62,9 @@ namespace milkTea.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Size>()
-                .HasMany(e => e.product_detail)
-                .WithRequired(e => e.Size)
-                .WillCascadeOnDelete(false);
+                .HasMany(e => e.Products_detail)
+                .WithOptional(e => e.Size1)
+                .HasForeignKey(e => e.Size);
 
             modelBuilder.Entity<User_Accounts>()
                 .Property(e => e.Username)
@@ -89,14 +87,26 @@ namespace milkTea.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<User_Accounts>()
-                .HasMany(e => e.Acc_Sell_Pro)
+                .HasMany(e => e.Carts)
                 .WithRequired(e => e.User_Accounts)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User_Accounts>()
-                .HasMany(e => e.Carts)
+                .HasMany(e => e.DeliveryProducts)
                 .WithRequired(e => e.User_Accounts)
+                .HasForeignKey(e => e.Customer)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User_Accounts>()
+                .HasMany(e => e.DeliveryProducts1)
+                .WithRequired(e => e.User_Accounts1)
+                .HasForeignKey(e => e.Seller)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User_Accounts>()
+                .HasMany(e => e.Products_detail)
+                .WithOptional(e => e.User_Accounts)
+                .HasForeignKey(e => e.Seller);
         }
     }
 }
