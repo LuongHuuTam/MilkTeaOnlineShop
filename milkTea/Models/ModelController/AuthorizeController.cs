@@ -22,17 +22,16 @@ namespace milkTea.Models.ModelController
             //session != null
             else
             {
-                string permission="";
+                List<string> permission = new List<string>();
                 switch (tbus.Type)
                 {
                     case 1:
-                        permission = "Admin";
+                        permission.Add("Admin");
                         break;
                     case 2:
-                        permission = "Seller";
-                        break;
                     case 3:
-                        permission = "Customer";
+                        permission.Add("Seller");
+                        permission.Add("Customer");
                         break;
                 }
                 //Lấy tên controller và action
@@ -41,7 +40,7 @@ namespace milkTea.Models.ModelController
                 //Lấy tên Controller
                 string ControllerName = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                 //nếu tên controler không có trong mảng quyền của user thì trả về trang đăng nhập
-                if (ControllerName!=permission)
+                if(!permission.Contains(ControllerName))
                 {
                     filterContext.Result = new RedirectResult("~/Login/Index");
                 }

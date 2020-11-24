@@ -26,9 +26,7 @@ namespace milkTea.Controllers
                 Session["user"] = res;
                 if (res.Type == 1)
                     return RedirectToAction("index", "admin");
-                if (res.Type == 2)
-                    return RedirectToAction("index", "seller");
-                return RedirectToAction("index", "customer");
+                return RedirectToAction("index", "home");
             }
             else
             {
