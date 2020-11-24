@@ -58,7 +58,9 @@
     width: 150px;
     height: 150px;
     display: block;
+
     border-radius: 50%;
+    z-index:1;
 }
 
 .name {

@@ -1,4 +1,5 @@
-﻿using milkTea.Models;
+﻿using milkTea.Assets;
+using milkTea.Models;
 using milkTea.Models.ModelController;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace milkTea.Controllers
         [HttpPost]
         public ActionResult Index(User_Accounts us)
         {
-            User_Accounts res = new AccountModel().login(us.Username, us.Password);
+            User_Accounts res = new AccountModel().login(us.Username, Encryptor.MD5Hash(us.Password));
             if(res!=null)
             {
                 Session["user"] = res;
