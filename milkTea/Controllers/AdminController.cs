@@ -32,6 +32,7 @@ namespace milkTea.Controllers
             }
             else
             {
+                ViewBag.search = search;
                 var model = new AccountModel().listAllAccount(search, page, pagesize);
                 return View(model);
             }
@@ -100,7 +101,7 @@ namespace milkTea.Controllers
             return Content("false");
         }
         [HttpPost]
-        public ActionResult uppdateInfo(string username, string newFn, string newLn, string newE, string newA,string newP)
+        public ActionResult uppdateInfo(string username, string newFn, string newLn, string newE, string newA, string newP)
         {
             User_Accounts user = new AccountModel().getAccount(username);
             user.FirstName = newFn;
@@ -114,5 +115,30 @@ namespace milkTea.Controllers
             }
             return Content("false");
         }
+        [HttpGet]
+        public ActionResult ManageCategory(int cat = 0)
+        {
+            int page = 1; int pagesize = 10;
+            int a;
+            if(cat==0)
+            {
+                a = 2;
+            }
+            else
+            {
+                a = cat + 1;
+            }
+            ViewBag.cat = a;
+            ViewBag.Type = ViewBag.Controller = "Admin";
+            var model = new ProductModel().getProByCat(cat, page, pagesize);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult addCategory(string catName)
+        {
+            int res = new ProductModel().addCategory(catName);
+            return Content(res.ToString());
+        }
+
     }
 }

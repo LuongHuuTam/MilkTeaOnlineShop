@@ -93,11 +93,7 @@
     </script>
 }
 
-
-<div class="info-a">Thông tin tài khoản Admin</div>
-<hr />
-
-<div body-1>
+<div  class="p-3 body-2">
     <div class="profile-card">
         <div class="header-card">
             <div class="pic" style="position:relative">
@@ -111,34 +107,31 @@
             <div class="epa">Số điện thoại: @Model.PhoneNumber</div>
             <div class="epa">Địa chỉ: @Model.Address</div>
             <div class="footer-card" style="padding:0 30%">
+                
+            </div>
+            <div class="footer-card">
                 <div class="number">
                     <div class="item-profile">
                         <span><a href="#" data-toggle="modal" data-target="#ChangePass">Đổi mật khẩu</a></span>
 
                     </div>
                     <div class="border-profile"></div>
+
                     <div class="item-profile">
                         <span><a href="#" data-toggle="modal" data-target="#ChangeInfo">Đổi thông tin cá nhân</a></span>
 
                     </div>
-                </div>
-            </div>
-            <div class="footer-card">
-                <div class="number">
+                    <div class="border-profile"></div>
                     <div class="item-profile">
                         <span><a href="/admin/manageaccount">Quản lí tài khoản</a></span>
 
                     </div>
                     <div class="border-profile"></div>
                     <div class="item-profile">
-                        <span><a href="/admin/managecategory">Quản lí danh mục sản phẩm</a></span>
+                        <span><a href="/admin/managecategory">Quản lí sản phẩm</a></span>
 
                     </div>
-                    <div class="border-profile"></div>
-                    <div class="item-profile">
-                        <span><a href="/admin/manageproduct">Quản lí sản phẩm</a></span>
 
-                    </div>
                 </div>
             </div>
         </div>
@@ -185,14 +178,14 @@
                 <div id="notifyInfo" class="notify"></div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" id="changeFirstname" placeholder="Họ">
+                        <input type="text" class="form-control " id="changeFirstname" placeholder="Họ">
                     </div>
                     <div class="col-sm-6">
                         <input type="text" class="form-control form-control-user" id="changeLastname" placeholder="Tên">
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control form-control-user" id="changeEmail" placeholder="Email">
+                    <input type="text" class="form-control form-control-user" id="changeEmail" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control form-control-user" id="changePhoneNumber" placeholder="Số điện thoại">
