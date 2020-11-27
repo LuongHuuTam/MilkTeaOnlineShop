@@ -22,9 +22,10 @@ namespace milkTea.Controllers
             return View(user);
         }
 
-        public ActionResult ManageAccount(string search = "", int page = 1, int pagesize = 6)
+        public ActionResult ManageAccount(string search = "", int page = 1, int pagesize = 8)
         {
             ViewBag.Type = ViewBag.Controller = "Admin";
+            ViewBag.search = search;
             if (search == "" || search == null)
             {
                 var model = new AccountModel().listAllAccount(page, pagesize);
@@ -32,7 +33,7 @@ namespace milkTea.Controllers
             }
             else
             {
-                ViewBag.search = search;
+
                 var model = new AccountModel().listAllAccount(search, page, pagesize);
                 return View(model);
             }
@@ -116,19 +117,21 @@ namespace milkTea.Controllers
             return Content("false");
         }
         [HttpGet]
-        public ActionResult ManageCategory(int cat = 0)
+        public ActionResult ManageCategory(int cat = 0, int page = 1, int pagesize = 8)
         {
-            int page = 1; int pagesize = 10;
             int a;
-            if(cat==0)
+            
+            if (cat == 0)
             {
+                ViewBag.cat = cat + 1;
                 a = 2;
             }
             else
             {
+                ViewBag.cat = cat;
                 a = cat + 1;
             }
-            ViewBag.cat = a;
+            ViewBag.data = a;     
             ViewBag.Type = ViewBag.Controller = "Admin";
             var model = new ProductModel().getProByCat(cat, page, pagesize);
             return View(model);
