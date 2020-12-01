@@ -10,7 +10,6 @@
             e.preventDefault();
             var finder = new CKFinder();
             finder.selectActionFunction = function (url) {
-                console.log(url);
                 $('#Avatar_url').val(url);
             };
             finder.popup();
@@ -19,7 +18,7 @@
 }
 
 <div class="p-5">
-    <h2>Tạo tài khoản</h2>
+    <h1>Tạo tài khoản</h1>
 
     <form action="/Admin/CreateAccount" method="post" id="frm-create">
         @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
@@ -30,17 +29,13 @@
             <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Mật khẩu">
         </div>
         <div class="form-group row">
-            <div class="col-sm-4 mb-2 mb-sm-0">
+            <div class="col-sm-2 mb-2 mb-sm-0">
                 <input type="radio" id="admin" name="Type" value="1">
                 <label for="admin" style="cursor:pointer">Admin</label>
             </div>
-            <div class="col-sm-4 mb-2 mb-sm-0" style="text-align:center">
-                <input type="radio" id="seller" name="Type" value="2">
-                <label for="seller" style="cursor:pointer">Người bán</label>
-            </div>
-            <div class="col-sm-4" style="text-align:end">
+            <div class="col-sm-2" style="text-align:end">
                 <input type="radio" id="customer" name="Type" value="3" checked="checked">
-                <label for="customer" style="cursor:pointer">Người mua</label>
+                <label for="customer" style="cursor:pointer">User</label>
             </div>
         </div>
         <div class="form-group row">
@@ -62,12 +57,15 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-9 mb-2">
-                <input type="text" class="form-control form-control-user" id="Avatar_url" name="Avatar_url" placeholder="Avatar-url">
+                <input type="text" class="form-control form-control-user" id="Avatar_url" name="Avatar_url" placeholder="Avatar">
             </div>
             <div class="col-sm-3">
-                <a href="#" id="avatar-btn" class="btn" style="text-decoration:none; background-color:dimgray; color:wheat">Chọn ảnh</a>
+                <a href="#" id="avatar-btn" class="btn" style="text-decoration:none; background-color:black;color:white;width:100%">Chọn ảnh</a>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-user btn-block">Đăng kí</button>
+        <div style="display:flex; justify-content:space-between" >
+            <button type="submit" class="btn" style="width:33%;background-color:black;color:white">Đăng kí</button>
+            <a href="/admin/manageaccount" class="btn" style="width:33%;background-color:black;color:white">Quay lại</a>
+        </div>
     </form>
 </div>

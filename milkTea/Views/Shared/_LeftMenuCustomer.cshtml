@@ -29,6 +29,23 @@
         </a>
     </li>
 }
+@{
+    milkTea.Models.User_Accounts db = HttpContext.Current.Session["user"] as milkTea.Models.User_Accounts;
+    if (db != null)
+    {
+
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Cửa hàng
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="fas fa-store"></i>
+                <span>Quản lí cửa hàng</span>
+            </a>
+        </li>
+    }
+}
 
 <hr class="sidebar-divider">
 <div class="sidebar-heading">

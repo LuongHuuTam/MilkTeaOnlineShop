@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 
@@ -26,6 +27,13 @@ namespace milkTea.Models.ModelController
         {
 
             return _context.User_Accounts.OrderBy(x => x.Type).ToPagedList(page, pagesize);
+        }
+        public IEnumerable<User_Accounts> listAllAccount(string search, int page, int pagesize)
+        {
+            var res = (from i in _context.User_Accounts
+                       where i.Username.Contains(search) || i.LastName.Contains(search) || i.FirstName.Contains(search)
+                       select i).ToList();
+            return res.OrderBy(x => x.Type).ToPagedList(page, pagesize);
         }
 
         public bool CreateAccount(User_Accounts user)
@@ -58,6 +66,24 @@ namespace milkTea.Models.ModelController
                 _context.SaveChanges();
                 return true;
 
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public User_Accounts getAccount(string username)
+        {
+            return _context.User_Accounts.Where(x => x.Username == username).SingleOrDefault();
+        }
+        public bool updateAccount(User_Accounts user)
+        {
+            try
+            {
+                _context.User_Accounts.AddOrUpdate(user);
+                _context.SaveChanges();
+                return true;
             }
             catch
             {

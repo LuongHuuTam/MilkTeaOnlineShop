@@ -3,37 +3,197 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="info-a">Thông tin tài khoản Admin</div>
-<hr />
-<div>
-    <div body-1>
-        <div class="profile-card">
-            <div class="header-card">
-                <div class="pic">
-                    <img src="@Model.Avatar_url" alt="">
-                </div>
-                <div class="name">@Model.FirstName @Model.LastName</div>
-                <div class="epa">Email: @Model.Email</div>
-                <div class="epa">Số điện thoại: @Model.PhoneNumber</div>
-                <div class="epa">Địa chỉ: @Model.Address</div>
+
+@section jsFooter{
+    <script>
+        $('#avatar').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+
+                var username = $('#username').text();
+                $.ajax({
+                    url: '/admin/uppdateAvatar',
+                    type: 'POST',
+                    async: true,
+                    data: { username: username, ava_url: url },
+                    success: function (msg) {
+                        if (msg == "true") {
+                            alert("Cập nhật thành công");
+                            $('#avatar_img').attr("src", url);
+
+                        }
+                        else {
+                            alert("Cập nhật thất bại");
+                        }
+                    }
+                })
+            };
+            finder.popup();
+        });
+        $('#commitPass').off('click').on('click', function (e) {
+            e.preventDefault();
+            var username = $('#username').text();
+            var oldpass = $('#oldpass').val();
+            var newpass = $('#newpass').val();
+            var repass = $('#repass').val();
+            $.ajax({
+                url: '/admin/uppdatePass',
+                type: 'POST',
+                async: true,
+                data: { username: username, oldPass: oldpass, newPass: newpass, rePass: repass },
+                success: function (msg) {
+                    if (msg == "mk khong dung") {
+                        alert('Mật khẩu không chính xác');
+                    }
+                    else if (msg == 'nhap lai mk sai') {
+                        alert('Nhập lại mật khẩu không chính xác');
+                    }
+                    else if (msg == 'true') {
+                        alert('Cập nhật thành công');
+                        $('#oldpass').val('');
+                        $('#newpass').val('');
+                        $('#repass').val('');
+                    }
+                    else {
+                        alert('Cập nhật thất bại');
+                    }
+                }
+            })
+        });
+        $('#commitInfo').off('click').on('click', function (e) {
+            e.preventDefault();
+            var username = $('#username').text();
+            var newFname = $('#changeFirstname').val();
+            var newLname = $('#changeLastname').val();
+            var newEmail = $('#changeEmail').val();
+            var newPhone = $('#changePhoneNumber').val();
+            var newAddress = $('#changeAddress').val();
+            $.ajax({
+                url: '/admin/uppdateInfo',
+                type: 'POST',
+                async: true,
+                data: { username: username, newFn: newFname, newLn: newLname, newE: newEmail, newA: newAddress, newP: newPhone },
+                success: function (msg) {
+                    if (msg == "true") {
+                        alert('Cập nhật thành công, Thông tin sẽ cập nhật trong lần đăng nhập tiếp theo');
+                        $('#changeFirstname').val('');
+                        $('#changeLastname').val('');
+                        $('#changeEmail').val('');
+                        $('#changePhoneNumber').val('');
+                        $('#changeAddress').val('');
+                    }
+                    else {
+                        alert('Cập nhật thất bại. Thử lại!!!');
+                    }
+                }
+            })
+        });
+        
+    </script>
+}
+
+<div  class="p-3 body-2">
+    <div class="profile-card">
+        <div class="header-card">
+            <div class="pic" style="position:relative">
+                <a href="#" id="avatar">
+                    <img src="@Model.Avatar_url" alt="" title="Đổi Avatar" id="avatar_img">
+                </a>
+            </div>
+            <div id="username" style="display:none">@Model.Username</div>
+            <div class="name">@Model.FirstName @Model.LastName</div>
+            <div class="epa">Email: @Model.Email</div>
+            <div class="epa">Số điện thoại: @Model.PhoneNumber</div>
+            <div class="epa">Địa chỉ: @Model.Address</div>
+            <div class="footer-card" style="padding:0 30%">
+                
             </div>
             <div class="footer-card">
                 <div class="number">
                     <div class="item-profile">
+                        <span><a href="#" data-toggle="modal" data-target="#ChangePass">Đổi mật khẩu</a></span>
+
+                    </div>
+                    <div class="border-profile"></div>
+
+                    <div class="item-profile">
+                        <span><a href="#" data-toggle="modal" data-target="#ChangeInfo">Đổi thông tin cá nhân</a></span>
+
+                    </div>
+                    <div class="border-profile"></div>
+                    <div class="item-profile">
                         <span><a href="/admin/manageaccount">Quản lí tài khoản</a></span>
-                        
+
                     </div>
                     <div class="border-profile"></div>
                     <div class="item-profile">
-                        <span><a href="/admin/managecategory">Quản lí danh mục sản phẩm</a></span>
-                        
+                        <span><a href="/admin/managecategory">Quản lí sản phẩm</a></span>
+
                     </div>
-                    <div class="border-profile"></div>
-                    <div class="item-profile">
-                        <span><a href="/admin/manageproduct">Quản lí sản phẩm</a></span>
-                        
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ChangePass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Đổi mật khẩu</h4>
+                <button class="close" id="closePass" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="notify" class="notify"></div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="oldpass" name="oldpass" placeholder="Mật khẩu củ">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="newpass" name="newpass" placeholder="Mật khẩu mới">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="repass" name="repass" placeholder="Nhập lại Mật khẩu">
+                </div>
+                <a href="#" class="btn btn-block"style="color:white; background-color:black" id="commitPass">Đổi mật khẩu</a>
+            </div>      
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ChangeInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Đổi thông tin tài khoản</h4>
+                <button class="close" id="closeInfo"  type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="notifyInfo" class="notify"></div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control " id="changeFirstname" placeholder="Họ">
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="changeLastname" placeholder="Tên">
                     </div>
                 </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="changeEmail" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="changePhoneNumber" placeholder="Số điện thoại">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="changeAddress" placeholder="Địa chỉ">
+                </div>
+                <a href="#" class="btn btn-block" style="color:white; background-color:black" id="commitInfo">Lưu thay đổi</a>
             </div>
         </div>
     </div>

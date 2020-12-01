@@ -1,16 +1,12 @@
 ﻿.info-a {
-    margin-top: 10px;
-    padding-left: 30px;
+    padding:1rem;
     color: black;
-    font-size: 18px;
-    font-weight: 500;
 }
 
-.body-1 {
+.body-2 {
     font-family: "Ubutu",sans-serif;
     box-sizing: border-box;
     text-decoration: none;
-    height: 100vh;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -58,7 +54,9 @@
     width: 150px;
     height: 150px;
     display: block;
+
     border-radius: 50%;
+    z-index:1;
 }
 
 .name {

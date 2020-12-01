@@ -1,0 +1,31 @@
+﻿.list-category {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .list-category li {
+        background-color: #ffffff;
+        border: 1px solid #5a5c69;
+        padding-top:0.4rem;
+        height: 35px;
+        overflow: hidden;
+        border-radius: 10px 10px 0 0;
+    }
+
+.category {
+    padding: 1rem;
+    height: 35px;
+}
+.category-li a{
+    text-decoration:none;
+    color:darkred;
+}
+.targets {
+    background-color: #5a5c69 !important;
+}
+.targets span{
+    color:#fff;
+}
