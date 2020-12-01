@@ -100,3 +100,7 @@
     height: 30px;
     background: #2c3a47;
 }
+
+.pagination li{
+    padding:0 5px;
+}

@@ -20,5 +20,18 @@ namespace milkTea.Models.ModelController
             return res;
         }
 
+        public List<Products_detail> allProducts()
+        {
+            return _context.Products_detail.ToList();
+        }
+
+        //public List<> CategoryDetails(int id)
+        //{
+            
+        //    var res = (from i in _context.Categories
+        //               where Category.
+        //               select i)
+        //    return res;
+        //}
     }
 }

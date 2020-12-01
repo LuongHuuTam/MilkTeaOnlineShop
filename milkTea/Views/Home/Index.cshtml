@@ -1,8 +1,30 @@
-﻿
+﻿@model IEnumerable<milkTea.Models.Products_detail>
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="p-3">Index</h2>
+<h2 class="p-3">Trang sản phẩm</h2>
+
+<div class="wrapper" id="body">
+	@foreach (var items in Model)
+	{
+		<div class="card">
+			<img src="@items.Imgage_url" alt="">
+			<div class="content">
+				<div class="row">
+					<div class="details">
+						<span>@items.Name</span>
+						<p>@items.Desciption</p>
+					</div>
+					<div class="price">@items.Price &nbsp;VNĐ</div>
+				</div>
+				<div class="buttons">
+					<button>Buy Now</button>
+					<button class="cart-btn">Add to Cart</button>
+				</div>
+			</div>
+		</div>
+	}
+</div>
 

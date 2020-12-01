@@ -1,0 +1,73 @@
+﻿@model milkTea.Models.User_Accounts
+
+@{
+    ViewBag.Title = "CreateAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+    <script>
+        $('#avatar-btn').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                console.log(url);
+                $('#Avatar_url').val(url);
+            };
+            finder.popup();
+        })
+    </script>
+}
+
+<div class="p-5">
+    <h2>Tạo tài khoản</h2>
+
+    <form action="/Admin/CreateAccount" method="post" id="frm-create">
+        @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" id="username" name="username" placeholder="Tài khoản">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Mật khẩu">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4 mb-2 mb-sm-0">
+                <input type="radio" id="admin" name="Type" value="1">
+                <label for="admin" style="cursor:pointer">Admin</label>
+            </div>
+            <div class="col-sm-4 mb-2 mb-sm-0" style="text-align:center">
+                <input type="radio" id="seller" name="Type" value="2">
+                <label for="seller" style="cursor:pointer">Người bán</label>
+            </div>
+            <div class="col-sm-4" style="text-align:end">
+                <input type="radio" id="customer" name="Type" value="3" checked="checked">
+                <label for="customer" style="cursor:pointer">Người mua</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="Firstname" name="Firstname" placeholder="Họ">
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="Lastname" name="Lastname" placeholder="Tên">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control form-control-user" id="Email" name="Email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" id="PhoneNumber" name="PhoneNumber" placeholder="Số điện thoại">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" id="Address" name="Address" placeholder="Địa chỉ">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-9 mb-2">
+                <input type="text" class="form-control form-control-user" id="Avatar_url" name="Avatar_url" placeholder="Avatar-url">
+            </div>
+            <div class="col-sm-3">
+                <a href="#" id="avatar-btn" class="btn" style="text-decoration:none; background-color:dimgray; color:wheat">Chọn ảnh</a>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-user btn-block">Đăng kí</button>
+    </form>
+</div>

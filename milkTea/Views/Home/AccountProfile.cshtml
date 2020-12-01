@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "AccountProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section jsFooter{
+	<script>
+		$('#avatar').on('click', function (e) {
+			e.preventDefault();
+			var finder = new CKFinder();
+			finder.selectActionFunction = function (url) {
+				var username = $('#username').text();
+				$.ajax({
+					url: "/admin/uppdateAvartar",
+					type: 'POST',
+					async: true,
+					data: { username: username, ava_url: url },
+					success: function (msg) {
+						if (msg == "true") {
+						}
+						else {
+							alert("Cập nhật thành công");
+							$('#avartar_img').attr("src", url);
+							//alert("Cập nhật thất bại")
+						}
+					}
+				})
+			};
+			finder.popup();
+		});
+	</script>
+}
+<div class="container">
+	<div class="row flex-lg-nowrap">
+		<div class="col">
+			<div class="row">
+				<div class="col mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="e-profile">
+								<div class="row">
+									<div class="col-12 col-sm-auto mb-3">
+										<div class="mx-auto" style="width: 140px;">
+											<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+												<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+											</div>
+										</div>
+									</div>
+									<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+										<div class="text-center text-sm-left mb-2 mb-sm-0">
+											<h4 id="username" class="pt-sm-2 pb-1 mb-0 text-nowrap">Tên đăng nhập</h4>
+											<div class="text-muted"><small>Last seen 2 hours ago</small></div>
+											<div class="mt-2">
+												
+												<a class="btn btn-primary" id="avatar" href="#">
+													<i class="fa fa-fw fa-camera"></i>
+													<span>Change Photo</span>
+												</a>
+											</div>
+										</div>
+										<div class="text-center text-sm-right">
+											<span class="badge badge-secondary">Hồ sơ cá nhân</span>
+											<div class="text-muted"><small>Joined DataTime</small></div>
+										</div>
+									</div>
+								</div>
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a href="" class="active nav-link">Thông tin cơ bản</a></li>
+								</ul>
+								<div class="tab-content pt-3">
+									<div class="tab-pane active">
+										<form class="form" novalidate="">
+											<div class="row">
+												<div class="col">
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Tên</label>
+																<input class="form-control" type="text">
+															</div>
+														</div>
+														<div class="col">
+															<div class="form-group">
+																<label>Họ</label>
+																<input class="form-control" type="text">
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Email</label>
+																<input class="form-control" type="text" placeholder="user@example.com">
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Số điện thoại</label>
+																<input class="form-control" type="text">
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col mb-3">
+															<div class="form-group">
+																<label>Địa chỉ</label>
+																<textarea class="form-control" rows="5" placeholder="Nhập địa chỉ của bạn tại đây"></textarea>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+													</div>
+													<div class="row">
+														<div class="col d-flex justify-content-end">
+															<button class="btn btn-primary" type="submit">Save Changes</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
