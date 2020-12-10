@@ -56,16 +56,36 @@ namespace milkTea.Models.ModelController
             try
             {
                 User_Accounts user = _context.User_Accounts.Where(x => x.Username == Username).Single();
-                //if (user.Type == 1)
-                //{
-                //    _context.User_Accounts.Remove(user);
-                //    _context.SaveChanges();
-                //    return true;
-                //}
+                if (user.Type == 1)
+                {
+                    _context.User_Accounts.Remove(user);
+                    _context.SaveChanges();
+                    return true;
+                }
+                foreach(var u in _context.DeliveryProducts)
+                {
+                    if (u.Seller==Username || u.Customer ==Username)
+                    {
+                        _context.DeliveryProducts.Remove(u);
+                    }
+                }
+                foreach (var u in _context.Carts)
+                {
+                    if (u.Username == Username)
+                    {
+                        _context.Carts.Remove(u);
+                    }
+                }
+                foreach (var u in _context.Products_detail)
+                {
+                    if (u.Seller == Username)
+                    {
+                        _context.Products_detail.Remove(u);
+                    }
+                }
                 _context.User_Accounts.Remove(user);
                 _context.SaveChanges();
                 return true;
-
             }
             catch
             {

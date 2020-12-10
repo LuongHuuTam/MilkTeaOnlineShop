@@ -120,7 +120,7 @@ namespace milkTea.Controllers
         public ActionResult ManageCategory(int cat = 0, int page = 1, int pagesize = 8)
         {
             int a;
-            
+
             if (cat == 0)
             {
                 ViewBag.cat = cat + 1;
@@ -131,7 +131,7 @@ namespace milkTea.Controllers
                 ViewBag.cat = cat;
                 a = cat + 1;
             }
-            ViewBag.data = a;     
+            ViewBag.data = a;
             ViewBag.Type = ViewBag.Controller = "Admin";
             var model = new ProductModel().getProByCat(cat, page, pagesize);
             return View(model);
@@ -142,6 +142,23 @@ namespace milkTea.Controllers
             int res = new ProductModel().addCategory(catName);
             return Content(res.ToString());
         }
+        [HttpPost]
+        public ActionResult deleteUser(string username)
+        {
+            if (new AccountModel().DeleteAccount(username))
 
+                return Content("/admin/manageaccount");
+            else
+                return Content("false");
+        }
+        [HttpPost]
+        public ActionResult deleteProduct(int id)
+        {
+            if (new ProductModel().DeleteProduct(id))
+
+                return Content("/admin/managecategory");
+            else
+                return Content("false");
+        }
     }
 }

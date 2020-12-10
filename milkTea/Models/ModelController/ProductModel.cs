@@ -53,11 +53,40 @@ namespace milkTea.Models.ModelController
 
         //public List<> CategoryDetails(int id)
         //{
-            
+
         //    var res = (from i in _context.Categories
         //               where Category.
         //               select i)
         //    return res;
         //}
+
+        public bool DeleteProduct(int id)
+        {
+            try
+            {
+                Products_detail pro = _context.Products_detail.Where(x => x.ProductId == id).Single();
+                foreach (var u in _context.DeliveryProducts)
+                {
+                    if (u.ProductId == id)
+                    {
+                        _context.DeliveryProducts.Remove(u);
+                    }
+                }
+                foreach (var u in _context.Carts)
+                {
+                    if (u.ProductId == id)
+                    {
+                        _context.Carts.Remove(u);
+                    }
+                }
+                _context.Products_detail.Remove(pro);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
