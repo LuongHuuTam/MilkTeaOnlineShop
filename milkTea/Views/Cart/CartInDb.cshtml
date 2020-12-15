@@ -1,0 +1,59 @@
+﻿@model IEnumerable<milkTea.Models.Cart>
+@{
+	ViewBag.Title = "CartInDb";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Count() > 0)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Tên SP</td>
+				<td>Ảnh SP</td>
+				<td>Đơn giá</td>
+				<td>Số lượng</td>
+				<td>Size</td>
+				<td>Thành tiền</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var items in Model)
+			{
+				double total = Convert.ToDouble(items.Products_detail.Price * items.Amount);
+				<tr>
+					<td>@items.Products_detail.Name</td>
+					<td><img src="@items.Products_detail.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
+					<td>@items.Products_detail.Price</td>
+					<td>
+						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
+						{
+							<input type="hidden" value="@items.ProductId" name="ProductId" />
+							<input type="number" min="1" value="@items.Amount" name="Amount" style="width: 40px;" />
+							<input type="submit" value="Cập nhật" class="btn btn-primary" />
+						}
+					</td>
+					<td>@items.Products_detail.Size</td>
+					<td>
+						Total: @total &nbsp;VNĐ
+					</td>
+					<td>
+						<a href="/Cart/RemoveCart/@items.ProductId">Xóa khỏi giỏ hàng</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" style="font-size: 25px"><br />Tổng tiền giỏ hàng: @ViewBag.TotalMoney &nbsp;VNĐ</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div style="padding-right: 5rem;">
+		<button class="btn btn-primary" style="float: right">Thanh toán</button>
+	</div>
+}
+else
+{
+	<h2 style="padding: 2rem;">Chưa có sản phẩm nào trong giỏ hàng</h2>
+}

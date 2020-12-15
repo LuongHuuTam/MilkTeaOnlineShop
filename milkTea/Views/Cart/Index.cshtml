@@ -1,0 +1,59 @@
+﻿@model milkTea.Models.ModelController.CartModel
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null || Model.Items.Count() == 0)
+{
+	<h2 style="padding: 2rem;">Chưa có sản phẩm nào trong giỏ hàng</h2>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Tên SP</td>
+				<td>Ảnh SP</td>
+				<td>Đơn giá</td>
+				<td>Số lượng</td>
+				<td>Size</td>
+				<td>Thành tiền</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var items in Model.Items)
+			{
+				double total = Convert.ToDouble(items.productsInCart.Price * items.amountInCart);
+				<tr>
+					<td>@items.productsInCart.Name</td>
+					<td><img src="@items.productsInCart.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
+					<td>@items.productsInCart.Price</td>
+					<td>
+						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
+						{
+							<input type="hidden" value="@items.productsInCart.ProductId" name="ProductId" />
+							<input type="number" min="1" value="@items.amountInCart" name="Amount" style="width: 40px;" />
+							<input type="submit" value="Cập nhật" class="btn btn-primary" />
+						}
+					</td>
+					<td>@items.productsInCart.Size</td>
+					<td>
+						Total: @total &nbsp;VNĐ
+					</td>
+					<td>
+						<a href="/Cart/RemoveCart/@items.productsInCart.ProductId">Xóa khỏi giỏ hàng</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" style="font-size: 25px"><br />Tổng tiền giỏ hàng: @Model.TotalMoney() &nbsp;VNĐ</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div style="padding-right: 5rem;">
+		<button class="btn btn-primary" style="float: right">Thanh toán</button>
+	</div>
+}

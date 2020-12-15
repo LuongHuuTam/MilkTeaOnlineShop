@@ -28,6 +28,7 @@ namespace milkTea.Models.ModelController
 
             return _context.User_Accounts.OrderBy(x => x.Type).ToPagedList(page, pagesize);
         }
+
         public IEnumerable<User_Accounts> listAllAccount(string search, int page, int pagesize)
         {
             var res = (from i in _context.User_Accounts
@@ -77,6 +78,7 @@ namespace milkTea.Models.ModelController
         {
             return _context.User_Accounts.Where(x => x.Username == username).SingleOrDefault();
         }
+
         public bool updateAccount(User_Accounts user)
         {
             try

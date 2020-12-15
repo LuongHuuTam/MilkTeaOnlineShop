@@ -1,7 +1,7 @@
-﻿
+﻿@model milkTea.Models.User_Accounts
 @{
-    ViewBag.Title = "AccountProfile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "AccountProfile";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section jsFooter{
@@ -10,19 +10,20 @@
 			e.preventDefault();
 			var finder = new CKFinder();
 			finder.selectActionFunction = function (url) {
+
 				var username = $('#username').text();
 				$.ajax({
-					url: "/admin/uppdateAvartar",
+					url: '/Home/UpdateAvatar',
 					type: 'POST',
 					async: true,
 					data: { username: username, ava_url: url },
 					success: function (msg) {
 						if (msg == "true") {
+							alert("Cập nhật thành công");
+							$('#avatar_img').attr("src", url);
 						}
 						else {
-							alert("Cập nhật thành công");
-							$('#avartar_img').attr("src", url);
-							//alert("Cập nhật thất bại")
+							alert("Cập nhật thất bại");
 						}
 					}
 				})
@@ -43,16 +44,18 @@
 									<div class="col-12 col-sm-auto mb-3">
 										<div class="mx-auto" style="width: 140px;">
 											<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-												<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+												<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">
+													<img src="@Model.Avatar_url" alt="140x140" title="Đổi Avatar" id="avatar_img" style="width: 130px;"/>
+												</span>
 											</div>
 										</div>
 									</div>
 									<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
 										<div class="text-center text-sm-left mb-2 mb-sm-0">
-											<h4 id="username" class="pt-sm-2 pb-1 mb-0 text-nowrap">Tên đăng nhập</h4>
+											<h4 id="username" class="pt-sm-2 pb-1 mb-0 text-nowrap">@Model.FirstName @Model.LastName </h4>
 											<div class="text-muted"><small>Last seen 2 hours ago</small></div>
 											<div class="mt-2">
-												
+
 												<a class="btn btn-primary" id="avatar" href="#">
 													<i class="fa fa-fw fa-camera"></i>
 													<span>Change Photo</span>
@@ -70,20 +73,21 @@
 								</ul>
 								<div class="tab-content pt-3">
 									<div class="tab-pane active">
-										<form class="form" novalidate="">
+										@using (Html.BeginForm("AccountProfile", "Home", FormMethod.Post))
+										{
 											<div class="row">
 												<div class="col">
 													<div class="row">
 														<div class="col">
 															<div class="form-group">
 																<label>Tên</label>
-																<input class="form-control" type="text">
+																@Html.TextBoxFor(Model => Model.FirstName, new { @class = "form-control" })
 															</div>
 														</div>
 														<div class="col">
 															<div class="form-group">
 																<label>Họ</label>
-																<input class="form-control" type="text">
+																@Html.TextBoxFor(Model => Model.LastName, new { @class = "form-control" })
 															</div>
 														</div>
 													</div>
@@ -91,7 +95,7 @@
 														<div class="col">
 															<div class="form-group">
 																<label>Email</label>
-																<input class="form-control" type="text" placeholder="user@example.com">
+																@Html.TextBoxFor(Model => Model.Email, new { @class = "form-control" })
 															</div>
 														</div>
 													</div>
@@ -99,7 +103,7 @@
 														<div class="col">
 															<div class="form-group">
 																<label>Số điện thoại</label>
-																<input class="form-control" type="text">
+																@Html.TextBoxFor(Model => Model.PhoneNumber, new { @class = "form-control" })
 															</div>
 														</div>
 													</div>
@@ -107,7 +111,7 @@
 														<div class="col mb-3">
 															<div class="form-group">
 																<label>Địa chỉ</label>
-																<textarea class="form-control" rows="5" placeholder="Nhập địa chỉ của bạn tại đây"></textarea>
+																@Html.TextAreaFor(Model => Model.Address, new { @class = "form-control" })
 															</div>
 														</div>
 													</div>
@@ -115,12 +119,12 @@
 													</div>
 													<div class="row">
 														<div class="col d-flex justify-content-end">
-															<button class="btn btn-primary" type="submit">Save Changes</button>
+															<button class="btn btn-primary" type="submit">Lưu thay đổi</button>
 														</div>
 													</div>
 												</div>
 											</div>
-										</form>
+										}
 									</div>
 								</div>
 							</div>

@@ -3,7 +3,7 @@
     Tài khoản
 </div>
 <li class="nav-item">
-    <a class="nav-link collapsed" href="@Url.Action("AccountProfile", "Home")">
+    <a class="nav-link collapsed" href="@Url.Action("index", ViewBag.Type)">
         <i class="fas fa-user"></i>
         <span>Hồ sơ tài khoản</span>
     </a>
@@ -23,7 +23,7 @@
 @foreach (var item in categories)
 {
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="@Url.Action("Category", "Home", new { cat = item.CatId })">
             <i class="fas fa-star"></i>
             <span>@item.CatName</span>
         </a>
@@ -49,11 +49,19 @@
 
 <hr class="sidebar-divider">
 <div class="sidebar-heading">
-    Giỏ hàng
+    Mua hàng
 </div>
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#">
+    <a class="nav-link collapsed" href="@Url.Action("Index", "Cart")">
         <i class="fas fa-shopping-cart"></i>
         <span>Giỏ hàng</span>
+        @Html.Action("BagCart", "Cart")
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="@Url.Action("Purchase", "Cart")">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Đơn mua</span>
+        @Html.Action("BagCart", "Cart")
     </a>
 </li>

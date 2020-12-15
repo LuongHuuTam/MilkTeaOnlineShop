@@ -45,9 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CKFinder, Version=2.6.0.2792, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Assets\js\plugin\ckfinder\bin\Release\CKFinder.dll</HintPath>
+    <Reference Include="CKFinder">
+      <HintPath>bin\Debug\CKFinder.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -136,6 +135,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Data\Encryptor.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -151,6 +151,7 @@
     <Compile Include="Models\MilkTeaModel.cs" />
     <Compile Include="Models\ModelController\AccountModel.cs" />
     <Compile Include="Models\ModelController\AuthorizeController.cs" />
+    <Compile Include="Models\ModelController\CartModel.cs" />
     <Compile Include="Models\ModelController\ProductModel.cs" />
     <Compile Include="Models\Products_detail.cs" />
     <Compile Include="Models\Size.cs" />
@@ -2718,10 +2719,15 @@
     <Content Include="Views\Shared\_LefrMenuSeller.cshtml" />
     <Content Include="Views\Admin\ManageAccount.cshtml" />
     <Content Include="Views\Admin\CreateAccount.cshtml" />
-    <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Login\registerAccount.cshtml" />
     <Content Include="Views\Admin\ManageCategory.cshtml" />
     <Content Include="Views\Home\AccountProfile.cshtml" />
+    <Content Include="Views\Home\Category.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\BagCart.cshtml" />
+    <Content Include="Views\Cart\CartInDb.cshtml" />
+    <Content Include="Views\Cart\Purchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

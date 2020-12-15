@@ -84,6 +84,7 @@ namespace milkTea.Controllers
             }
             return Content("false");
         }
+
         [HttpPost]
         public ActionResult uppdatePass(string username, string oldPass, string newPass, string rePass)
         {
@@ -101,6 +102,7 @@ namespace milkTea.Controllers
             }
             return Content("false");
         }
+
         [HttpPost]
         public ActionResult uppdateInfo(string username, string newFn, string newLn, string newE, string newA, string newP)
         {
@@ -136,6 +138,7 @@ namespace milkTea.Controllers
             var model = new ProductModel().getProByCat(cat, page, pagesize);
             return View(model);
         }
+
         [HttpPost]
         public ActionResult addCategory(string catName)
         {

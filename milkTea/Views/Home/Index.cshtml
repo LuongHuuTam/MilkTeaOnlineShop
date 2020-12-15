@@ -1,10 +1,36 @@
-﻿@model IEnumerable<milkTea.Models.Products_detail>
+﻿@model PagedList.IPagedList<milkTea.Models.Products_detail>
+@using PagedList.Mvc;
 @{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="p-3">Trang sản phẩm</h2>
+@section jsFooter{
+	<script>
+
+		$('.addToCart').click(function (e) {
+			e.preventDefault();
+			var proId = $(this).data('id');
+			$.ajax({
+				url: 'Cart/AddToCart',
+				type: 'POST',
+				async: true,
+				data: { id: proId },
+				success: function (msg) {
+					if (msg == 'true') {
+						alert('Thêm thành công');
+						const i = parseInt($('#bag').text()) + 1;
+						$('#bag').text(i);
+					}
+					else {
+						alert('Thêm không thành công');
+					}	
+				}
+			})
+		});
+	</script>
+}
+<h2 class="p-3" style="font-family: cursive; color:deeppink">@ViewBag.Name</h2>
 
 <div class="wrapper" id="body">
 	@foreach (var items in Model)
@@ -14,17 +40,27 @@
 			<div class="content">
 				<div class="row">
 					<div class="details">
-						<span>@items.Name</span>
+						<span>@items.Name (@items.Size)</span>
 						<p>@items.Desciption</p>
 					</div>
 					<div class="price">@items.Price &nbsp;VNĐ</div>
 				</div>
-				<div class="buttons">
-					<button>Buy Now</button>
-					<button class="cart-btn">Add to Cart</button>
-				</div>
+				<form>
+					<div class="buttons">
+						<button type="submit" class="cart-btn" formaction="@Url.Action("BuyNow", "Cart", new { id = items.ProductId })">
+							Mua ngay
+						</button>
+						<button class="cart-btn addToCart" data-id="@items.ProductId">
+							Thêm vào giỏ hàng
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	}
 </div>
 
+<div style="margin:1rem 3rem 1rem 1rem; float:right">
+	@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))
+
+</div>

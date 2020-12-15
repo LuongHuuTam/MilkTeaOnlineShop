@@ -13,8 +13,7 @@ namespace milkTea.Controllers
         // GET: Seller
         public ActionResult Index()
         {
-            ViewBag.Type = ViewBag.Controller = "Seller";
-            
+            ViewBag.Type = ViewBag.Controller = "Seller";           
             return View();
         }
     }
