@@ -25,6 +25,31 @@
                 }
             })
         })
+        var id;
+        $('.delete').click(function (e) {
+            e.preventDefault();
+            id = $(this).data('id');
+        })
+        $('#confirmDelete').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/admin/deleteProduct',
+                type: 'POST',
+                async: true,
+                data: { id: id },
+                success: function (msg) {
+                    if (msg == 'false') {
+                        alert('Xóa không thành công. Thử lại sau!!!');
+                    }
+                    else {
+                        alert('Xóa thành công!!!');
+                        setTimeout(function () {
+                            window.location.href = '' + msg + '';
+                        }, 1000);
+                    }
+                }
+            })
+        })
     </script>
 }
 <div class="p-2">
@@ -79,7 +104,7 @@
                                     <td>@item.Price</td>
                                     <td>@item.Quantity</td>
                                     <td>
-                                        <a href="#">Xóa</a>
+                                        <a href="#" data-toggle="modal" data-target="#deleteProduct" data-id="@item.ProductId" class="delete">Xóa</a>
                                     </td>
                                 </tr>
                             }
@@ -110,6 +135,27 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" style="color:white; background-color:black" id="commitAddCat">Thêm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Xóa sản phẩm</h4>
+                <button class="close" id="closePass" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn xóa sản phẩm này?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Không</button>
+                <a class="btn btn-primary" href="#" id="confirmDelete">Có</a>
             </div>
         </div>
     </div>
