@@ -24,7 +24,7 @@ else
 		<tbody>
 			@foreach (var items in Model.Items)
 			{
-				double total = Convert.ToDouble(items.productsInCart.Price * items.amountInCart);
+				float total = (items.productsInCart.Price * items.amountInCart);
 				<tr>
 					<td>@items.productsInCart.Name</td>
 					<td><img src="@items.productsInCart.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
@@ -54,6 +54,8 @@ else
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<button class="btn btn-primary" style="float: right">Thanh toán</button>
+		<form>
+			<button type="submit" formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
+		</form>
 	</div>
 }

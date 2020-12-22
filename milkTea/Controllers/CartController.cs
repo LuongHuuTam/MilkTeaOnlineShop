@@ -30,37 +30,14 @@ namespace milkTea.Controllers
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
             if (userInDb == null)
             {
-                CartModel cart = Session["Cart"] as CartModel;                
-                //if (Session["Cart"] == null)
-                //{
-                //    return View(cart);
-                //}
-
+                CartModel cart = Session["Cart"] as CartModel;
                 return View(cart);
             }
             else
             {
-                List<Cart> cartInDb = new CartModel().AllCartOfUser(userInDb.Username);
+                List<Cart> allcartInDb = new CartModel().AllCartOfUser(userInDb.Username);
                 ViewBag.TotalMoney = new CartModel().TotalMoneyInCart();
-                return View("CartInDb", cartInDb);
-            }
-        }
-
-        //trang đơn mua
-        public ActionResult Purchase()
-        {
-            ViewBag.Type = "Customer";
-            ViewBag.Controller = "Home";
-            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (userInDb == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            else
-            {
-                List<Cart> cartInDb = new CartModel().AllOrderOfUser(userInDb.Username);
-                ViewBag.TotalMoney = new CartModel().TotalMoneyInCart();
-                return View(cartInDb);
+                return View("CartInDb", allcartInDb);
             }
         }
 
@@ -68,14 +45,7 @@ namespace milkTea.Controllers
         [HttpPost]
         public ActionResult AddToCart(int id)
         {
-            //CartModel cart = Session["Cart"] as CartModel;
-            //var pro = new CartModel().GetProducts(id);
-            //if (pro != null)
-            //{
-            //    GetCart().Add(pro);
-            //}
-            //Session["cart"] = cart;
-            Products_detail pro = null;
+            Products_Detail pro = null;
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
             if (userInDb == null)
             {
@@ -95,15 +65,14 @@ namespace milkTea.Controllers
                     var cartt = new Cart();
                     cartt.Username = userInDb.Username;
                     cartt.ProductId = pro.ProductId;
-                    cartt.Status = false;
-                    if (new CartModel().AddCartToDb(cartt))
+                    if (new CartModel().AddCartToDb(cartt, 1))
                     {
                         return Content("true");
                     }
                 }
                 else
                 {
-                    if (new CartModel().AddCartToDb(cart))
+                    if (new CartModel().AddCartToDb(cart, 1))
                     {
                         return Content("true");
                     }
@@ -116,7 +85,7 @@ namespace milkTea.Controllers
         //mua sản phẩm
         public ActionResult BuyNow(int id)
         {
-            Products_detail pro = null;
+            Products_Detail pro = null;
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
             if (userInDb == null)
             {
@@ -136,15 +105,14 @@ namespace milkTea.Controllers
                     var cartt = new Cart();
                     cartt.Username = userInDb.Username;
                     cartt.ProductId = pro.ProductId;
-                    cartt.Status = false;
-                    if (new CartModel().AddCartToDb(cartt))
+                    if (new CartModel().AddCartToDb(cartt, 1))
                     {
                         return RedirectToAction("Index", "Cart");
                     }
                 }
                 else
                 {
-                    if (new CartModel().AddCartToDb(cart))
+                    if (new CartModel().AddCartToDb(cart, 1))
                     {
                         return RedirectToAction("Index", "Cart");
                     }
@@ -195,7 +163,7 @@ namespace milkTea.Controllers
            
         }
 
-        public  PartialViewResult BagCart()
+        public  PartialViewResult BagCart() 
         {            
             int item = 0;
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;

@@ -63,11 +63,11 @@ namespace milkTea.Models.ModelController
                     _context.SaveChanges();
                     return true;
                 }
-                foreach(var u in _context.DeliveryProducts)
+                foreach(var u in _context.Orders_Detail)
                 {
-                    if (u.Seller==Username || u.Customer ==Username)
+                    if (u.Customer == Username)
                     {
-                        _context.DeliveryProducts.Remove(u);
+                        _context.Orders_Detail.Remove(u);
                     }
                 }
                 foreach (var u in _context.Carts)
@@ -77,11 +77,11 @@ namespace milkTea.Models.ModelController
                         _context.Carts.Remove(u);
                     }
                 }
-                foreach (var u in _context.Products_detail)
+                foreach (var u in _context.Products_Detail)
                 {
                     if (u.Seller == Username)
                     {
-                        _context.Products_detail.Remove(u);
+                        _context.Products_Detail.Remove(u);
                     }
                 }
                 _context.User_Accounts.Remove(user);

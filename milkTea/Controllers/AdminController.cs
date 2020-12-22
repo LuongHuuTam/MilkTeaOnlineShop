@@ -145,6 +145,7 @@ namespace milkTea.Controllers
             int res = new ProductModel().addCategory(catName);
             return Content(res.ToString());
         }
+
         [HttpPost]
         public ActionResult deleteUser(string username)
         {
@@ -154,6 +155,7 @@ namespace milkTea.Controllers
             else
                 return Content("false");
         }
+
         [HttpPost]
         public ActionResult deleteProduct(int id)
         {

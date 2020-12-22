@@ -6,20 +6,23 @@ namespace milkTea.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Size")]
-    public partial class Size
+    public partial class Ship_Method
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Size()
+        public Ship_Method()
         {
-            Products_Detail = new HashSet<Products_Detail>();
+            Orders_Detail = new HashSet<Orders_Detail>();
         }
 
         [Key]
-        [StringLength(1)]
-        public string SizeName { get; set; }
+        public int ShipId { get; set; }
+
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public float Fee { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Products_Detail> Products_Detail { get; set; }
+        public virtual ICollection<Orders_Detail> Orders_Detail { get; set; }
     }
 }

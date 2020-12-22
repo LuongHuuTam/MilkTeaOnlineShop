@@ -1,0 +1,35 @@
+﻿@model IEnumerable<milkTea.Models.Orders_Detail>
+@{
+	ViewBag.Title = "OrderMenu";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="p-3" style="font-family: cursive; color:deeppink">Đơn hàng</h2>
+
+<div class="container" style="background-color: #fff; border: 1px solid #e3e6f0; margin-top: 2rem;">
+	<table class="table">
+		<thead style="border-top: hidden">
+			<tr>
+				<td>Mã đơn</td>
+				<td>Số sản phẩm</td>
+				<td>Ngày đặt</td>
+				<td>Tổng tiền</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var items in Model)
+			{
+				<tr>
+					<td>@items.OrderDetailId</td>
+					<td>@items.TotalAmount</td>
+					<td>@items.OrderDate</td>
+					<td>@items.TotalMoney &nbsp;VNĐ</td>
+					<td>
+						<a href="@Url.Action("OrderDetails", "Customer", new { id = items.OrderDetailId })">Chi tiết</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+

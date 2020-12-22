@@ -6,19 +6,20 @@ namespace milkTea.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Cart
+    public partial class Order
     {
-        public int CartID { get; set; }
-
-        [StringLength(200)]
-        public string Username { get; set; }
+        public int OrderId { get; set; }
 
         public int ProductId { get; set; }
 
         public int Amount { get; set; }
 
-        public virtual Products_Detail Products_Detail { get; set; }
+        public byte Status { get; set; }
 
-        public virtual User_Accounts User_Accounts { get; set; }
+        public int Orders_Detail { get; set; }
+
+        public virtual Orders_Detail Orders_Detail1 { get; set; }
+
+        public virtual Products_Detail Products_Detail { get; set; }
     }
 }

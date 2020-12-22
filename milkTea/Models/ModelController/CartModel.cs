@@ -9,7 +9,7 @@ namespace milkTea.Models.ModelController
     // thực hiện trong session
     public class CartItem
     {
-        public Products_detail productsInCart { get; set; }
+        public Products_Detail productsInCart { get; set; }
         public int amountInCart { get; set; }
     }
 
@@ -31,7 +31,7 @@ namespace milkTea.Models.ModelController
             get { return items; }
         }
 
-        public void Add(Products_detail products, int amount = 1)
+        public void Add(Products_Detail products, int amount = 1)
         {
             var item = items.SingleOrDefault(p => p.productsInCart.ProductId == products.ProductId);
             if (item == null)
@@ -49,9 +49,9 @@ namespace milkTea.Models.ModelController
             }
         }
 
-        public Products_detail GetProducts(int id)
+        public Products_Detail GetProducts(int id)
         {
-            var pro = _context.Products_detail.SingleOrDefault(p => p.ProductId == id);
+            var pro = _context.Products_Detail.SingleOrDefault(p => p.ProductId == id);
             return pro;
         }
 
@@ -69,7 +69,8 @@ namespace milkTea.Models.ModelController
             var total = items.Sum(s => s.productsInCart.Price * s.amountInCart);
             return (double)total;
         }
-        //xóa giỏ hàng tro
+
+        //xóa giỏ hàng trong session
         public void RemoveCartItem(int id)
         {
             items.RemoveAll(s => s.productsInCart.ProductId == id);
@@ -88,38 +89,26 @@ namespace milkTea.Models.ModelController
         }
 
         //Thực hiện trong db
-
-        public double TotalMoneyInCart()
+        public float TotalMoneyInCart()
         {
-            var total = _context.Carts.Sum(t => (double?)t.Products_detail.Price * t.Amount) ?? 0d;
-            return (double)total;
+            var total = _context.Carts.Sum(t => (double?)t.Products_Detail.Price * t.Amount) ?? 0f;
+            return (float)total;
         }
 
         //list giỏ hàng
         public List<Cart> AllCartOfUser(string username)
         {
-            //var cart = _context.Carts.Where(x => x.Username == username).ToList();
             var cart = (from i in _context.Carts
                         where i.Username == username
-                        where i.Status == false
-                        select i).ToList();
-            return cart;
-        }
-        
-        //list đơn hàng
-        public List<Cart> AllOrderOfUser(string username)
-        {
-            //var cart = _context.Carts.Where(x => x.Username == username).ToList();
-            var cart = (from i in _context.Carts
-                        where i.Username == username
-                        where i.Status == true
                         select i).ToList();
             return cart;
         }
 
         public Cart GetCart(string username, int id)
         {
-            var cart = _context.Carts.Where(c => c.Username == username).SingleOrDefault(c => c.ProductId == id);
+            var cart = (from i in _context.Carts
+                        where i.Username == username
+                        select i).SingleOrDefault(c => c.ProductId == id);
             return cart;
         }
 
@@ -130,20 +119,19 @@ namespace milkTea.Models.ModelController
                       select (int?)i.Amount).Sum() ?? 0;
             return amount;
         }
-        public bool AddCartToDb(Cart cart, int amount = 1)
+
+        public bool AddCartToDb(Cart cart, int amount)
         {
             try
             {
                 var item = _context.Carts.SingleOrDefault(p => p.ProductId == cart.ProductId);
                 if (item == null)
                 {
-                    cart.Amount = amount;
-
+                    cart.Amount = 1;
                 }
                 else
                 {
                     cart.Amount += amount;
-
                 }
                 _context.Carts.AddOrUpdate(cart);
                 _context.SaveChanges();
@@ -163,7 +151,6 @@ namespace milkTea.Models.ModelController
                 _context.Carts.AddOrUpdate(cart);
                 _context.SaveChanges();
                 return true;
-
             }
             catch
             {
@@ -171,15 +158,40 @@ namespace milkTea.Models.ModelController
             }
         }
 
-        public bool DeleteCartFromDb(string Username, int id)
+        public bool DeleteCartFromDb(string username, int id)
         {
             try
             {
-                var cart = _context.Carts.Where(x => x.Username == Username).SingleOrDefault(x => x.ProductId == id);        
+                var cart = (from i in _context.Carts
+                            where i.Username == username
+                            select i).SingleOrDefault(c => c.ProductId == id);
                 _context.Carts.Remove(cart);
                 _context.SaveChanges();
                 return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
+        public bool AddCartSessionToDb(Cart cart, int amount)
+        {
+            try
+            {
+                var item = _context.Carts.SingleOrDefault(p => p.ProductId == cart.ProductId);
+                if (item == null)
+                {
+                    cart.Amount = amount;
+                    _context.Carts.Add(cart);
+                }
+                else
+                {
+                    item.Amount += amount;
+                    _context.Carts.AddOrUpdate(item);
+                }
+                _context.SaveChanges();
+                return true;
             }
             catch
             {

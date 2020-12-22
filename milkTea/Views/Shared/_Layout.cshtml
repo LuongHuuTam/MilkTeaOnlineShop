@@ -98,12 +98,10 @@
 								</div>
                             </form>
 						</div>
-
                         @{
                             milkTea.Models.User_Accounts db = HttpContext.Current.Session["user"] as milkTea.Models.User_Accounts;
                             if (db == null)
                             {
-
                                 <a class="nav-item no-arrow p-2 " href="/login/index">
                                     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Đăng nhập
@@ -111,15 +109,12 @@
                             }
                             else
                             {
-
                                 <a class="nav-item no-arrow p-2 " href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Đăng xuất
                                 </a>
-
                             }
                         }
-
                     </nav>
                 </div>
                 <!-- End of Topbar -->

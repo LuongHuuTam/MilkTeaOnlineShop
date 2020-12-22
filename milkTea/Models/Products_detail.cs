@@ -6,13 +6,13 @@ namespace milkTea.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Products_detail
+    public partial class Products_Detail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Products_detail()
+        public Products_Detail()
         {
             Carts = new HashSet<Cart>();
-            DeliveryProducts = new HashSet<DeliveryProduct>();
+            Orders = new HashSet<Order>();
         }
 
         [Key]
@@ -46,7 +46,7 @@ namespace milkTea.Models
         public virtual Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeliveryProduct> DeliveryProducts { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         public virtual User_Accounts User_Accounts { get; set; }
 

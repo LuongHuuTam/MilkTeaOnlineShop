@@ -20,11 +20,11 @@
 		<tbody>
 			@foreach (var items in Model)
 			{
-				double total = Convert.ToDouble(items.Products_detail.Price * items.Amount);
+				float total = (items.Products_Detail.Price * items.Amount);
 				<tr>
-					<td>@items.Products_detail.Name</td>
-					<td><img src="@items.Products_detail.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
-					<td>@items.Products_detail.Price</td>
+					<td>@items.Products_Detail.Name</td>
+					<td><img src="@items.Products_Detail.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
+					<td>@items.Products_Detail.Price</td>
 					<td>
 						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
 						{
@@ -33,9 +33,9 @@
 							<input type="submit" value="Cập nhật" class="btn btn-primary" />
 						}
 					</td>
-					<td>@items.Products_detail.Size</td>
+					<td>@items.Products_Detail.Size</td>
 					<td>
-						Total: @total &nbsp;VNĐ
+						Tổng tiền: @total &nbsp;VNĐ
 					</td>
 					<td>
 						<a href="/Cart/RemoveCart/@items.ProductId">Xóa khỏi giỏ hàng</a>
@@ -50,7 +50,9 @@
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<button class="btn btn-primary" style="float: right">Thanh toán</button>
+		<form>
+			<button type="submit" formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
+		</form>
 	</div>
 }
 else

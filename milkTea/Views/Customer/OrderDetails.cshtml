@@ -1,0 +1,119 @@
+﻿@model PagedList.IPagedList<milkTea.Models.Order>
+@using PagedList.Mvc;
+@{
+	ViewBag.Title = "OrderDetails";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section jsFooter{
+	<script>
+		$('.category-li:nth-child(@ViewBag.Data)').addClass("targets");
+		var id;
+		$('.cancel').click(function (e) {
+			e.preventDefault();
+			id = $(this).data('id');
+		})
+		$('#confirmCancel').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '/Customer/CancelProduct',
+				type: 'POST',
+				async: true,
+				data: { id: id },
+				success: function (msg) {
+					if (msg == 'false') {
+						alert('Hủy không thành công. Thử lại sau!!!');
+					}
+					else {
+						alert('Hủy thành công!!!')
+						setTimeout(function () {
+							window.location.href = '' + msg + '';
+						}, 1000);
+					}
+				}
+			})
+		})
+	</script>
+}
+
+<h2 class="p-3" style="font-family: cursive; color:deeppink">Chi tiết đơn hàng</h2>
+
+<div class="panel-body">
+	<ul class="list-category" style="margin-left: 56px;">
+		<li class="category-li">
+			<a class="category" href="@Url.Action("OrderDetails", "Customer", new { status = 0 })"><span>Chờ xác nhận</span></a>
+		</li>
+		<li class="category-li">
+			<a class="category" href="@Url.Action("OrderDetails", "Customer", new { status = 1 })"><span>Đã giao</span></a>
+		</li>
+		<li class="category-li">
+			<a class="category" href="@Url.Action("OrderDetails", "Customer", new { status = 2 })"><span>Đã hủy</span></a>
+		</li>
+	</ul>
+	<div class="container" style="background-color: #fff; border: 1px solid #e3e6f0;">
+		<table class="table">
+			<thead style="border-top: hidden">
+				<tr>
+					<td>Sản phẩm</td>
+					<td></td>
+					<td>Đơn giá</td>
+					<td>Số lượng</td>
+					<td>Thành tiền</td>
+					<td>Trạng thái</td>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var items in Model)
+				{
+					float total = (items.Products_Detail.Price * items.Amount);
+				<tr>
+					<td>@items.Products_Detail.Name</td>
+					<td><img src="@items.Products_Detail.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
+					<td>@items.Products_Detail.Price &nbsp;VNĐ</td>
+					<td>@items.Amount</td>
+					<td>@total &nbsp;VNĐ</td>
+					@{
+						if (items.Status == 0)
+						{
+							<td>Chưa xác nhận</td>
+							<td>
+								<a href="#" data-toggle="modal" data-target="#cancelProduct" data-id="@items.OrderId" class="cancel">Hủy</a>
+							</td>
+						}
+						else if (items.Status == 1)
+						{
+							<td>Đã giao</td>
+						}
+						else
+						{
+							<td>Đã hủy</td>
+						}
+					}
+
+				</tr>
+				}
+			</tbody>
+		</table>
+		@Html.PagedListPager(Model, Page => Url.Action("OrderDetails", new { Page }))
+	</div>
+</div>
+
+<div class="modal fade" id="cancelProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel">Hủy sản phẩm trong đơn hàng</h4>
+				<button class="close" id="closePass" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				Bạn có chắc chắn hủy mua sản phẩm này?
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">Không</button>
+				<a class="btn btn-primary" href="#" id="confirmCancel">Có</a>
+			</div>
+		</div>
+	</div>
+</div>

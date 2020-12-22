@@ -147,13 +147,16 @@
     </Compile>
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\DeliveryProduct.cs" />
     <Compile Include="Models\MilkTeaModel.cs" />
     <Compile Include="Models\ModelController\AccountModel.cs" />
     <Compile Include="Models\ModelController\AuthorizeController.cs" />
     <Compile Include="Models\ModelController\CartModel.cs" />
+    <Compile Include="Models\ModelController\OrderModel.cs" />
     <Compile Include="Models\ModelController\ProductModel.cs" />
-    <Compile Include="Models\Products_detail.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Orders_Detail.cs" />
+    <Compile Include="Models\Products_Detail.cs" />
+    <Compile Include="Models\Ship_Method.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\User_Accounts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,18 +167,6 @@
     <Content Include="Assets\css\ProfileCard.css" />
     <Content Include="Assets\css\sb-admin-2.css" />
     <Content Include="Assets\css\sb-admin-2.min.css" />
-    <Content Include="Assets\img\ca-phe-den.jpg" />
-    <Content Include="Assets\img\ca-phe-muoi.jpg" />
-    <Content Include="Assets\img\hong-tra-sua-.jpg" />
-    <Content Include="Assets\img\sinh-to-kiwi-.jpg" />
-    <Content Include="Assets\img\sinh-to-nho.png" />
-    <Content Include="Assets\img\sinh-to-xoai.png" />
-    <Content Include="Assets\img\thanh-tra-tao.jpg" />
-    <Content Include="Assets\img\tra-dao.jpg" />
-    <Content Include="Assets\img\tra-sua-khuc-bach.jpg" />
-    <Content Include="Assets\img\tra-sua-sui-bot.jpg" />
-    <Content Include="Assets\img\tra-trai-cay-nhiet-doi.jpg" />
-    <Content Include="Assets\img\undraw_posting_photo.svg" />
     <Content Include="Assets\js\AjaxCreateAccount.js" />
     <Content Include="Assets\js\demo\chart-area-demo.js" />
     <Content Include="Assets\js\demo\chart-bar-demo.js" />
@@ -2728,6 +2719,9 @@
     <Content Include="Views\Cart\BagCart.cshtml" />
     <Content Include="Views\Cart\CartInDb.cshtml" />
     <Content Include="Views\Cart\Purchase.cshtml" />
+    <Content Include="Views\Customer\BuyProducts.cshtml" />
+    <Content Include="Views\Customer\OrderMenu.cshtml" />
+    <Content Include="Views\Customer\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

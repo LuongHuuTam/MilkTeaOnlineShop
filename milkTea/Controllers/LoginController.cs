@@ -26,6 +26,20 @@ namespace milkTea.Controllers
                 Session["user"] = res;
                 if (res.Type == 1)
                     return RedirectToAction("index", "admin");
+                CartModel cart = Session["Cart"] as CartModel;
+                //lưu session cart vào db
+                if (cart != null)
+                {
+                    var cartInDb = new Cart();
+                    foreach (var item in cart.Items)
+                    {
+                        cartInDb.Username = res.Username;
+                        cartInDb.ProductId = item.productsInCart.ProductId;
+                        if (new CartModel().AddCartSessionToDb(cartInDb, item.amountInCart))
+                        { }
+                    }
+                    Session["Cart"] = null;
+                }
                 return RedirectToAction("index", "home");
             }
             else

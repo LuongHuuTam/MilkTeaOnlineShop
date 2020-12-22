@@ -27,7 +27,8 @@ namespace milkTea.Controllers
             ViewBag.Type = "Customer";
             ViewBag.Controller = "Home";
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (user.FirstName == null || user.LastName == null || user.PhoneNumber == null || user.Email == null || user.Address == null)
+            if (user.FirstName == null || user.LastName == null || 
+                user.PhoneNumber == null || user.Email == null || user.Address == null)
             {
                 user.FirstName = "";
                 user.LastName = "";
@@ -62,10 +63,98 @@ namespace milkTea.Controllers
             {
                 return Content("true");
             }
-
             return Content("false");
         }
 
+        // mua hàng
+        public ActionResult BuyProducts()
+        {
+            ViewBag.Type = "Customer";
+            ViewBag.Controller = "Home";
+            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
+            var allCart = new CartModel().AllCartOfUser(userInDb.Username);
+            var model = new OrderModel
+            {
+                carts = allCart,
+                user = userInDb
+            };
+            ViewBag.TotalMoney = new CartModel().TotalMoneyInCart();
+            return View(model);
+        }
 
+        //trang đơn hàng
+        public ActionResult OrderMenu()
+        {
+            ViewBag.Type = "Customer";
+            ViewBag.Controller = "Home";
+            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
+            var orderMenus = new OrderModel().AllOrderMenusOfUser(userInDb.Username);
+            
+            return View(orderMenus);
+        }
+
+        //đặt hàng
+        [HttpPost]
+        public ActionResult Order(OrderModel order)
+        {
+            ViewBag.Type = "Customer";
+            ViewBag.Controller = "Home";
+            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
+            List<Cart> carts = new CartModel().AllCartOfUser(userInDb.Username);
+            var orderMenu = new Order();
+            var orderDetail = new Orders_Detail();
+            orderDetail.Customer = userInDb.Username;
+            orderDetail.OrderDate = DateTime.Now;
+            orderDetail.Note = order.detail.Note;
+            orderDetail.TotalAmount = new CartModel().TotalAmountCartInDB(userInDb.Username);
+            orderDetail.TotalMoney = new CartModel().TotalMoneyInCart();
+            if (new OrderModel().AddOrderDetail(orderDetail))
+            {
+                foreach (var item in carts)
+                {
+                    orderMenu.ProductId = item.ProductId;
+                    orderMenu.Orders_Detail = orderDetail.OrderDetailId;
+                    //orderMenu.Orders_Detail1.ShipId = order.detail.ShipId;
+                    if (new OrderModel().AddOrderMenuToDb(orderMenu, item.Amount) &&
+                        new CartModel().DeleteCartFromDb(userInDb.Username, item.ProductId))
+                    {
+                    }
+                }
+            }
+            return RedirectToAction("OrderMenu");
+        }
+
+        public ActionResult OrderDetails(int id, int status = 0, int page = 1, int pagesize = 8)
+        {
+            ViewBag.Type = "Customer";
+            ViewBag.Controller = "Home";
+            if (status == 0)
+            {
+                ViewBag.Data = 1;
+            }
+            else if (status == 1)
+            {
+                ViewBag.Data = 2;
+            }
+            else
+            {
+                ViewBag.Data = 3;
+            }
+            var orderDetail = new OrderModel().GetOrdersByStatus(id, status, page, pagesize);
+            return View(orderDetail);
+        }
+
+        [HttpPost]
+        public ActionResult CancelProduct(int id)
+        {
+            var orderId = new OrderModel().GetOrderIdByOrder_Detail(id);
+            var order = new OrderModel().GetOrder(id);
+            order.Status = 2;
+            if (new OrderModel().UpdateOrder(order))
+            {
+                return Content("/Customer/OrderDetails/" + orderId.ToString());
+            }
+            return Content("false");
+        }
     }
 }

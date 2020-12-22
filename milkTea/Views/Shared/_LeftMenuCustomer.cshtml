@@ -53,15 +53,17 @@
 </div>
 <li class="nav-item">
     <a class="nav-link collapsed" href="@Url.Action("Index", "Cart")">
-        <i class="fas fa-shopping-cart"></i>
+		<i class="fas fa-shopping-cart">
+			@Html.Action("BagCart", "Cart")
+		</i>
         <span>Giỏ hàng</span>
-        @Html.Action("BagCart", "Cart")
+        
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link collapsed" href="@Url.Action("Purchase", "Cart")">
+    <a class="nav-link collapsed" href="@Url.Action("OrderMenu", "Customer")">
         <i class="fas fa-shopping-cart"></i>
         <span>Đơn mua</span>
-        @Html.Action("BagCart", "Cart")
+        @*@Html.Action("BagCart", "Cart")*@
     </a>
 </li>

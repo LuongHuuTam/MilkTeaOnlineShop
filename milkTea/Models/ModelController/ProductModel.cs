@@ -28,7 +28,7 @@ namespace milkTea.Models.ModelController
             return res.Max()+1;
         }
 
-        public IEnumerable<Products_detail> getProByCat(int catId, int page, int pagesize)
+        public IEnumerable<Products_Detail> getProByCat(int catId, int page, int pagesize)
         {
             if(catId==0)
             {
@@ -37,7 +37,7 @@ namespace milkTea.Models.ModelController
                 catId = n[0];
             }
 
-            return _context.Products_detail.Where(x => x.CatId == catId).OrderBy(x => x.Name).ToPagedList(page, pagesize);
+            return _context.Products_Detail.Where(x => x.CatId == catId).OrderBy(x => x.Name).ToPagedList(page, pagesize);
         }
         public int addCategory(string name)
         {
@@ -46,9 +46,9 @@ namespace milkTea.Models.ModelController
             _context.SaveChanges();
             return res.CatId;
         }
-        public IEnumerable<Products_detail> allProducts(int page, int pagesize)
+        public IEnumerable<Products_Detail> allProducts(int page, int pagesize)
         {
-            return _context.Products_detail.OrderBy(x => x.Name).ToPagedList(page, pagesize);
+            return _context.Products_Detail.OrderBy(x => x.Name).ToPagedList(page, pagesize);
         }
 
         //public List<> CategoryDetails(int id)
@@ -64,12 +64,12 @@ namespace milkTea.Models.ModelController
         {
             try
             {
-                Products_detail pro = _context.Products_detail.Where(x => x.ProductId == id).Single();
-                foreach (var u in _context.DeliveryProducts)
+                Products_Detail pro = _context.Products_Detail.Where(x => x.ProductId == id).Single();
+                foreach (var u in _context.Orders)
                 {
                     if (u.ProductId == id)
                     {
-                        _context.DeliveryProducts.Remove(u);
+                        _context.Orders.Remove(u);
                     }
                 }
                 foreach (var u in _context.Carts)
@@ -79,7 +79,7 @@ namespace milkTea.Models.ModelController
                         _context.Carts.Remove(u);
                     }
                 }
-                _context.Products_detail.Remove(pro);
+                _context.Products_Detail.Remove(pro);
                 _context.SaveChanges();
                 return true;
             }
@@ -94,9 +94,9 @@ namespace milkTea.Models.ModelController
             return res.CatName;
         }
 
-        public IEnumerable<Products_detail> searchProducts(string serch, int page, int pagesize)
+        public IEnumerable<Products_Detail> searchProducts(string serch, int page, int pagesize)
         {
-            var res = (from i in _context.Products_detail
+            var res = (from i in _context.Products_Detail
                        where i.Name.Contains(serch)
                        select i).OrderBy(p => p.Name).ToPagedList(page, pagesize);
             return res;
