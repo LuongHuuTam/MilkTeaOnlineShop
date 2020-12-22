@@ -67,6 +67,11 @@ namespace milkTea.Models.ModelController
                 {
                     if (u.Customer == Username)
                     {
+                        foreach(var x in _context.Orders)
+                        {
+                            if (x.Orders_Detail == u.OrderDetailId)
+                                _context.Orders.Remove(x);
+                        }
                         _context.Orders_Detail.Remove(u);
                     }
                 }
@@ -81,6 +86,20 @@ namespace milkTea.Models.ModelController
                 {
                     if (u.Seller == Username)
                     {
+                        foreach(var n in _context.Carts)
+                        {
+                            if (n.ProductId==u.ProductId)
+                            {
+                                _context.Carts.Remove(n);
+                            }
+                        }
+                        foreach (var m in _context.Orders)
+                        {
+                            if (m.ProductId == u.ProductId)
+                            {
+                                _context.Orders.Remove(m);
+                            }
+                        }
                         _context.Products_Detail.Remove(u);
                     }
                 }
