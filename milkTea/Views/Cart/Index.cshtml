@@ -4,6 +4,31 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section jsFooter{
+	<script>
+		$('#buy').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '/Customer/checkProduct',
+				//type: 'POST',
+				async: true,
+				//data: { id: id },
+				success: function (msg) {
+					if (msg == 'false') {
+						alert('Số lượng sản phẩm không đủ. Thử lại sau!!!');
+					}
+					else {
+						alert('Xóa thành công!!!');
+						setTimeout(function () {
+							window.location.href = '' + msg + '';
+						}, 1000);
+					}
+				}
+			})
+		})
+	</script>
+}
+
 @if (Model == null || Model.Items.Count() == 0)
 {
 	<h2 style="padding: 2rem;">Chưa có sản phẩm nào trong giỏ hàng</h2>
@@ -54,8 +79,6 @@ else
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<form>
-			<button type="submit" formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
-		</form>
+		<button id="buy" class="btn btn-primary" style="float: right">Mua hàng</button>
 	</div>
 }

@@ -175,23 +175,28 @@ namespace milkTea.Models.ModelController
             }
         }
 
-        public bool AddCartSessionToDb(Cart cart, int amount)
+        public bool AddCartSessionToDb(Cart cart, int amount, string username)
         {
             try
             {
-                var item = _context.Carts.SingleOrDefault(p => p.ProductId == cart.ProductId);
-                if (item == null)
+                var product = _context.Products_Detail.SingleOrDefault(p => p.ProductId == cart.ProductId);
+                if (product.Seller != username)
                 {
-                    cart.Amount = amount;
-                    _context.Carts.Add(cart);
+                    var item = _context.Carts.SingleOrDefault(p => p.ProductId == cart.ProductId);
+                    if (item == null)
+                    {
+                        cart.Amount = amount;
+                        _context.Carts.Add(cart);
+                    }
+                    else
+                    {
+                        item.Amount += amount;
+                        _context.Carts.AddOrUpdate(item);
+                    }
+                    _context.SaveChanges();
+                    return true;
                 }
-                else
-                {
-                    item.Amount += amount;
-                    _context.Carts.AddOrUpdate(item);
-                }
-                _context.SaveChanges();
-                return true;
+                return false;
             }
             catch
             {

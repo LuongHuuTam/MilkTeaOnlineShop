@@ -116,5 +116,33 @@ namespace milkTea.Models.ModelController
             var orderId = _context.Orders.SingleOrDefault(o => o.OrderId == id);
             return orderId.Orders_Detail;
         }
+
+        public bool UpdateQuantityOfProduct(int id, int amount)
+        {
+            try
+            {
+                var product = _context.Products_Detail.SingleOrDefault(p => p.ProductId == id);
+                product.Quantity -= amount;
+                _context.Products_Detail.AddOrUpdate(product);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool CheckProduct(string username, int proId)
+        {
+            var productOfUser = _context.Products_Detail
+                .Where(p => p.Seller == username)
+                .SingleOrDefault(p => p.ProductId == proId);
+            if (productOfUser == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

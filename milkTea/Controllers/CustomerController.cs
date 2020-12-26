@@ -27,7 +27,7 @@ namespace milkTea.Controllers
             ViewBag.Type = "Customer";
             ViewBag.Controller = "Home";
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (user.FirstName == null || user.LastName == null || 
+            if (user.FirstName == null || user.LastName == null ||
                 user.PhoneNumber == null || user.Email == null || user.Address == null)
             {
                 user.FirstName = "";
@@ -49,7 +49,6 @@ namespace milkTea.Controllers
             {
                 ModelState.AddModelError("", "Lỗi");
             }
-
             return View();
         }
 
@@ -64,6 +63,23 @@ namespace milkTea.Controllers
                 return Content("true");
             }
             return Content("false");
+        }
+
+
+        public ActionResult checkProduct()
+        {
+            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
+            var allCart = new CartModel().AllCartOfUser(userInDb.Username);
+            foreach (var item in allCart)
+            {
+                var pro = new CartModel().GetProducts(item.ProductId);
+                if (new OrderModel().CheckProduct(item.Username, item.ProductId) ||
+                    item.Amount > pro.Quantity)
+                {
+                    return Content("false");
+                }
+            }
+            return Content("/Customer/BuyProducts");
         }
 
         // mua hàng
@@ -89,7 +105,7 @@ namespace milkTea.Controllers
             ViewBag.Controller = "Home";
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
             var orderMenus = new OrderModel().AllOrderMenusOfUser(userInDb.Username);
-            
+
             return View(orderMenus);
         }
 
@@ -116,7 +132,8 @@ namespace milkTea.Controllers
                     orderMenu.Orders_Detail = orderDetail.OrderDetailId;
                     //orderMenu.Orders_Detail1.ShipId = order.detail.ShipId;
                     if (new OrderModel().AddOrderMenuToDb(orderMenu, item.Amount) &&
-                        new CartModel().DeleteCartFromDb(userInDb.Username, item.ProductId))
+                        new CartModel().DeleteCartFromDb(userInDb.Username, item.ProductId) &&
+                        new OrderModel().UpdateQuantityOfProduct(item.ProductId, item.Amount))
                     {
                     }
                 }

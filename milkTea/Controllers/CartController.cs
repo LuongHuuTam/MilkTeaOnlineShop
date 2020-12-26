@@ -45,11 +45,14 @@ namespace milkTea.Controllers
         [HttpPost]
         public ActionResult AddToCart(int id)
         {
-            Products_Detail pro = null;
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (userInDb == null)
+            var pro = new CartModel().GetProducts(id);
+            if (pro.Quantity == 0)
             {
-                pro = new CartModel().GetProducts(id);
+                return Content("False");
+            }
+            if (userInDb == null)
+            {               
                 if (pro != null)
                 {
                     GetCart().Add(pro);
@@ -58,7 +61,6 @@ namespace milkTea.Controllers
             }
             else
             {
-                pro = new CartModel().GetProducts(id);
                 var cart = new CartModel().GetCart(userInDb.Username, id);
                 if (cart == null)
                 {
@@ -77,48 +79,53 @@ namespace milkTea.Controllers
                         return Content("true");
                     }
                 }
-            }
-        
+            }        
             return Content("false");
         }
 
         //mua sản phẩm
+        [HttpPost]
         public ActionResult BuyNow(int id)
         {
-            Products_Detail pro = null;
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (userInDb == null)
+            var pro = new CartModel().GetProducts(id);
+            if(pro.Quantity == 0)
             {
-                pro = new CartModel().GetProducts(id);
-                if (pro != null)
-                {
-                    GetCart().Add(pro);
-                }
-                return RedirectToAction("Index", "Cart");
+                return Content("false");
             }
             else
             {
-                pro = new CartModel().GetProducts(id);
-                var cart = new CartModel().GetCart(userInDb.Username, id);
-                if (cart == null)
+                if (userInDb == null)
                 {
-                    var cartt = new Cart();
-                    cartt.Username = userInDb.Username;
-                    cartt.ProductId = pro.ProductId;
-                    if (new CartModel().AddCartToDb(cartt, 1))
+                    if (pro != null)
                     {
-                        return RedirectToAction("Index", "Cart");
+                        GetCart().Add(pro);
                     }
+                    return Content("/Cart/Index");
                 }
                 else
                 {
-                    if (new CartModel().AddCartToDb(cart, 1))
+                    var cart = new CartModel().GetCart(userInDb.Username, id);
+                    if (cart == null)
                     {
-                        return RedirectToAction("Index", "Cart");
+                        var cartt = new Cart();
+                        cartt.Username = userInDb.Username;
+                        cartt.ProductId = pro.ProductId;
+                        if (new CartModel().AddCartToDb(cartt, 1))
+                        {
+                            return Content("/Cart/Index");
+                        }
                     }
-                }               
-            }
-            return RedirectToAction("Index", "Cart");
+                    else
+                    {
+                        if (new CartModel().AddCartToDb(cart, 1))
+                        {
+                            return Content("/Cart/Index");
+                        }
+                    }
+                }
+            }          
+            return Content("/Cart/Index");
         }
 
         public ActionResult UpdateAmountCard(FormCollection form)

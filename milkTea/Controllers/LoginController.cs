@@ -35,7 +35,7 @@ namespace milkTea.Controllers
                     {
                         cartInDb.Username = res.Username;
                         cartInDb.ProductId = item.productsInCart.ProductId;
-                        if (new CartModel().AddCartSessionToDb(cartInDb, item.amountInCart))
+                        if (new CartModel().AddCartSessionToDb(cartInDb, item.amountInCart, res.Username))
                         { }
                     }
                     Session["Cart"] = null;

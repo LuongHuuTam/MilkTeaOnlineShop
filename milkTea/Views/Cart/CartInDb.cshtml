@@ -4,17 +4,42 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section jsFooter{
+	<script>
+		$('#buy').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '/Customer/checkProduct',
+				//type: 'POST',
+				async: true,
+				//data: { id: id },
+				success: function (msg) {
+					if (msg == 'false') {
+						alert('Số lượng sản phẩm không đủ. Thử lại sau!!!');
+					}
+					else {
+						setTimeout(function () {
+							window.location.href = '' + msg + '';
+						}, 100);
+					}
+				}
+			})
+		})
+	</script>
+}
+
 @if (Model.Count() > 0)
 {
 	<table class="table">
 		<thead>
 			<tr>
-				<td>Tên SP</td>
-				<td>Ảnh SP</td>
+				<td>Sản phẩm</td>
+				<td></td>
 				<td>Đơn giá</td>
 				<td>Số lượng</td>
 				<td>Size</td>
 				<td>Thành tiền</td>
+				<td>Shop</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,13 +54,16 @@
 						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
 						{
 							<input type="hidden" value="@items.ProductId" name="ProductId" />
-							<input type="number" min="1" value="@items.Amount" name="Amount" style="width: 40px;" />
+							<input type="number" min="1" max="@items.Products_Detail.Quantity" value="@items.Amount" name="Amount" style="width: 40px;" />
 							<input type="submit" value="Cập nhật" class="btn btn-primary" />
 						}
 					</td>
 					<td>@items.Products_Detail.Size</td>
 					<td>
-						Tổng tiền: @total &nbsp;VNĐ
+						@total &nbsp;VNĐ
+					</td>
+					<td>
+						<a href="#">@items.Products_Detail.Seller</a>
 					</td>
 					<td>
 						<a href="/Cart/RemoveCart/@items.ProductId">Xóa khỏi giỏ hàng</a>
@@ -50,9 +78,7 @@
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<form>
-			<button type="submit" formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
-		</form>
+		<button id="buy" class="btn btn-primary" style="float: right">Mua hàng</button>
 	</div>
 }
 else

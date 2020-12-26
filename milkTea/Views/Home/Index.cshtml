@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<milkTea.Models.Products_Detail>
 @using PagedList.Mvc;
+
 @{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +8,24 @@
 
 @section jsFooter{
 	<script>
-
+		$('.buyNow').click(function (e) {
+			e.preventDefault();
+			var productId = $(this).data('id');
+			$.ajax({
+				url: 'Cart/BuyNow',
+				type: 'POST',
+				async: true,
+				data: { id: productId },
+				success: function (msg) {
+					if (msg == 'false') {
+						alert('Sản phẩm tạm hết hàng');
+					}
+					else {
+						window.location.href = '' + msg + '';
+					}
+				}
+			})
+		});
 		$('.addToCart').click(function (e) {
 			e.preventDefault();
 			var proId = $(this).data('id');
@@ -18,13 +36,12 @@
 				data: { id: proId },
 				success: function (msg) {
 					if (msg == 'true') {
-						alert('Thêm thành công');
 						const i = parseInt($('#bag').text()) + 1;
 						$('#bag').text(i);
 					}
 					else {
-						alert('Thêm không thành công');
-					}	
+						alert('Sản phẩm tạm hết hàng');
+					}
 				}
 			})
 		});
@@ -47,7 +64,7 @@
 				</div>
 				<form>
 					<div class="buttons">
-						<button type="submit" class="cart-btn" formaction="@Url.Action("BuyNow", "Cart", new { id = items.ProductId })">
+						<button type="submit" class="cart-btn buyNow" data-id="@items.ProductId" >
 							Mua ngay
 						</button>
 						<button class="cart-btn addToCart" data-id="@items.ProductId">

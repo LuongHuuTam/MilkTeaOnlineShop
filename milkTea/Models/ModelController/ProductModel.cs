@@ -101,5 +101,15 @@ namespace milkTea.Models.ModelController
                        select i).OrderBy(p => p.Name).ToPagedList(page, pagesize);
             return res;
         }
+
+        public IEnumerable<Products_Detail> allProductsOfAnotherUser(string username, int page, int pagesize)
+        {
+            //return _context.Products_Detail.OrderBy(x => x.Name).ToPagedList(page, pagesize);
+            var product = (from i in _context.Products_Detail
+                           where i.Seller != username
+                           orderby i.Name
+                           select i).ToPagedList(page, pagesize);
+            return product;
+        }
     }
 }

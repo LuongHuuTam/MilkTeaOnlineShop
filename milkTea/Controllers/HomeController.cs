@@ -16,7 +16,13 @@ namespace milkTea.Controllers
             ViewBag.Name = "Trang sản phẩm";
             ViewBag.Controller = "Home";
             ViewBag.Type = "Customer";
-            var allProducts = new ProductModel().allProducts(page, pagesize);
+            User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
+            if (userInDb != null)
+            {
+                var product = new ProductModel().allProductsOfAnotherUser(userInDb.Username, page, pagesize);
+                return View(product);
+            }
+            var allProducts = new ProductModel().allProducts(page, pagesize);           
             return View(allProducts);
         }
 
