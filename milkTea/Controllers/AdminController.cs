@@ -165,5 +165,14 @@ namespace milkTea.Controllers
             else
                 return Content("false");
         }
+
+        public ActionResult deleteCategory(int id)
+        {
+            if (new ProductModel().DeleteCategory(id))
+
+                return Content("/admin/managecategory");
+            else
+                return Content("false");
+        }
     }
 }

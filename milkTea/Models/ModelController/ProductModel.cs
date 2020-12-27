@@ -22,19 +22,34 @@ namespace milkTea.Models.ModelController
         }
         public int getCatID()
         {
-            var res = (from i in _context.Categories
-                       select i.CatId).ToList();
+            var res = (from n in _context.Categories
+                       select n.CatId).ToList();
+            if (res.Count <= 0 || res[0] != 1)
+                return 1;
+            int i;
+            for (i = 0; i < res.Count - 1; i++)
+            {
+                if (res[i + 1] - res[i] != 1)
+                    break;
+            }
 
-            return res.Max()+1;
+            return res[i] + 1;
         }
 
         public IEnumerable<Products_Detail> getProByCat(int catId, int page, int pagesize)
         {
-            if(catId==0)
+            if (catId == 0)
             {
                 var n = (from i in _context.Categories
-                           select i.CatId).ToList();
-                catId = n[0];
+                         select i.CatId).ToList();
+                try
+                {
+                    catId = n[0];
+                }
+                catch
+                {
+                    catId = 0;
+                }
             }
 
             return _context.Products_Detail.Where(x => x.CatId == catId).OrderBy(x => x.Name).ToPagedList(page, pagesize);
@@ -51,14 +66,25 @@ namespace milkTea.Models.ModelController
             return _context.Products_Detail.OrderBy(x => x.Name).ToPagedList(page, pagesize);
         }
 
-        //public List<> CategoryDetails(int id)
-        //{
-
-        //    var res = (from i in _context.Categories
-        //               where Category.
-        //               select i)
-        //    return res;
-        //}
+        public bool DeleteCategory(int id)
+        {
+            try
+            {
+                Category cat = _context.Categories.Where(x => x.CatId == id).Single();
+                var temp = _context.Products_Detail.Where(x => x.CatId == id).ToList();
+                foreach (var i in temp)
+                {
+                    DeleteProduct(i.ProductId);
+                }
+                _context.Categories.Remove(cat);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public bool DeleteProduct(int id)
         {

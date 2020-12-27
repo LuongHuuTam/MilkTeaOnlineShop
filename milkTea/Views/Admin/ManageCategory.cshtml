@@ -45,7 +45,30 @@
                         alert('Xóa thành công!!!');
                         setTimeout(function () {
                             window.location.href = '' + msg + '';
-                        }, 1000);
+                        }, 10);
+                    }
+                }
+            })
+        })
+        $('.delete-category').click(function (e) {
+            id = $(this).data('id');
+        })
+        $('#delCat').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/admin/deleteCategory',
+                type: 'POST',
+                async: true,
+                data: { id: id },
+                success: function (msg) {
+                    if (msg == 'false') {
+                        alert('Xóa không thành công. Thử lại sau!!!');
+                    }
+                    else {
+                        alert('Xóa thành công!!!');
+                        setTimeout(function () {
+                            window.location.href = '' + msg + '';
+                        }, 10);
                     }
                 }
             })
@@ -72,11 +95,17 @@
                             List<milkTea.Models.Category> categories = new milkTea.Models.ModelController.ProductModel().allCategory();
                             foreach (var item in categories)
                             {
-                                <li class="category-li">
-                                    <a href="/admin/managecategory?cat=@item.CatId" class="category" data-id="@item.CatId" id="@item.CatId">
-                                        <span>@item.CatName</span>
-                                    </a>
+                                <li class="category-li d-flex position-relative">
+                                    <div>
+                                        <a href="@Url.Action("managecategory","admin",new { cat= item.CatId })" class="category ml-2 mr-2" data-id="@item.CatId" id="@item.CatId">
+                                            <span>@item.CatName</span>
+                                        </a>
+                                    </div>
+                                    <a href="#" data-toggle="modal" data-target="#deleteCategory"  class="delete-category" title="Xóa danh mục" data-id="@item.CatId"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                    
                                 </li>
+
+
                             }
                         }
                     </ul>
@@ -109,7 +138,7 @@
                             }
                         </tbody>
                     </table>
-                    @Html.PagedListPager(Model, Page => Url.Action("ManageCategory", new { ViewBag.cat,  Page }))
+                    @Html.PagedListPager(Model, Page => Url.Action("ManageCategory", new { ViewBag.cat, Page }))
                 </div>
             </div>
         </div>
@@ -155,6 +184,26 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Không</button>
                 <a class="btn btn-primary" href="#" id="confirmDelete">Có</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Xóa danh mục</h4>
+                <button class="close" id="closePass" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn xóa danh mục này?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Không</button>
+                <a class="btn btn-primary" href="#" id="delCat">Có</a>
             </div>
         </div>
     </div>
