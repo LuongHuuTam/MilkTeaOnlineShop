@@ -137,5 +137,58 @@ namespace milkTea.Models.ModelController
                            select i).ToPagedList(page, pagesize);
             return product;
         }
+        //---------
+        
+         public List<Size> allSize()
+        {
+            return _context.Sizes.ToList();
+        }
+        public bool AddProduct(Products_Detail product)
+        {
+            try
+            {
+                _context.Products_Detail.Add(product);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public Products_Detail GetProductById(int? Id)
+        {
+            return _context.Products_Detail.Find(Id);
+        }
+        public List<Products_Detail> GetProductBySeller(User_Accounts seller)
+        {
+
+            return _context.Products_Detail.Where(x => x.Seller == seller.Username).ToList();
+        }
+        public bool UpdateProduct(Products_Detail pro)
+        {
+            try
+            {
+                var product =_context.Products_Detail.Find(pro.ProductId);
+                product.Seller = pro.Seller;
+                product.Name = pro.Name;
+                product.Imgage_url = pro.Imgage_url;
+                product.Desciption = pro.Desciption;
+                product.CatId = pro.CatId;
+                product.Size = pro.Size;
+                product.Price = pro.Price;
+                product.Quantity = pro.Quantity;
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public Products_Detail GetProductByOrder(Order order)
+        {
+            return _context.Products_Detail.Find(order.ProductId);
+        }
     }
 }
