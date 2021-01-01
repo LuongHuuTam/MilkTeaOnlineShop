@@ -10,12 +10,10 @@
 			e.preventDefault();
 			$.ajax({
 				url: '/Customer/checkProduct',
-				//type: 'POST',
 				async: true,
-				//data: { id: id },
 				success: function (msg) {
 					if (msg == 'false') {
-						alert('Số lượng sản phẩm không đủ. Thử lại sau!!!');
+						alert('Số lượng sản phẩm không đủ. Nhập lại!!!');
 					}
 					else {
 						setTimeout(function () {
