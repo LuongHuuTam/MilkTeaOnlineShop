@@ -19,13 +19,32 @@
     padding: 1rem;
     height: 35px;
 }
-.category-li a{
+.category-li a:first-child{
     text-decoration:none;
     color:darkred;
 }
+
 .targets {
     background-color: #5a5c69 !important;
 }
 .targets span{
     color:#fff;
+}
+
+.delete-category {
+    position: absolute;
+    top: 0;
+    right:5px;
+    display:none;
+    transform: translateY(10%);
+    text-decoration: none;
+    color: darkslateblue;
+}
+
+.targets .delete-category{
+    color:lightgoldenrodyellow;
+}
+
+.category-li:hover .delete-category{
+    display:flex;
 }
