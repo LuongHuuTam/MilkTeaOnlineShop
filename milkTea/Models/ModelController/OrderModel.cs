@@ -144,5 +144,104 @@ namespace milkTea.Models.ModelController
             }
             return true;
         }
+        
+        
+        
+        //-----------------------------------
+
+
+        public List<Ship_Method> allShip()
+        {
+            return _context.Ship_Method.ToList();
+        }
+        public Ship_Method GetShipMethodById(int? id)
+        {
+            return _context.Ship_Method.Find(id);
+        }
+        public Orders_Detail GetOrderDetailById(int? Id)
+        {
+            return _context.Orders_Detail.Find(Id);
+        }
+        //public int AddOrderDetail(Orders_Detail orderDt)
+        //{
+
+        //    _context.Orders_Detail.Add(orderDt);
+        //    _context.SaveChanges();
+        //    return orderDt.OrderDetailId;
+
+        //}
+        public Order GetOrderById(int? Id)
+        {
+            return _context.Orders.Find(Id);
+        }
+        public IEnumerable<Order> GetOrderByCustomer(User_Accounts acc)
+        {
+            List<Orders_Detail> listOD = new List<Orders_Detail>();
+            List<Order> listO = new List<Order>();
+            List<Order> listResult = new List<Order>();
+            listOD = _context.Orders_Detail.Where(x => x.Customer == acc.Username).ToList();
+            foreach (var od in listOD)
+            {
+                listO = _context.Orders.Where(x => x.Orders_Detail == od.OrderDetailId).ToList();
+                foreach (var o in listO)
+                {
+                    listResult.Add(o);
+                }
+            }
+            return listResult;
+        }
+        public IEnumerable<Order> GetOrderByProduct(Products_Detail pro)
+        {
+            return _context.Orders.Where(x => x.ProductId == pro.ProductId).ToList();
+        }
+        public IEnumerable<Order> GetOrderBySeller(User_Accounts acc)
+        {
+            var listOrder = new List<Order>();
+            //lấy danh sách sp của seller
+            var listProduct = new ProductModel().GetProductBySeller(acc);
+            //Tương ứng mỗi sp, tìm order có proId trùng với Id sản phẩm, nếu có thì lưu vào listOrder
+            foreach (var product in listProduct)
+            {
+                var list = new OrderModel().GetOrderByProduct(product);
+                if (list != null)
+                {
+                    foreach (var order in list)
+                    {
+                        listOrder.Add(order);
+                    }
+                }
+            }
+            return listOrder;
+        }
+        public bool AddListOrders(List<Order> list)
+        {
+            try
+            {
+                foreach (var i in list)
+                {
+                    _context.Orders.Add(i);
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool Update(int? OrderId, byte status)
+        {
+            try
+            {
+                Order order = _context.Orders.Find(OrderId);
+                order.Status = status;
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
