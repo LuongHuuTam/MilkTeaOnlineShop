@@ -1,0 +1,90 @@
+﻿@model IEnumerable<milkTea.Models.Order>
+
+@{
+	ViewBag.Title = "Order";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Order</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+	<tr>
+		<th colspan="2">
+			Sản phẩm
+		</th>
+
+		<th>
+			Số lượng
+		</th>
+		<th>
+			Giá
+		</th>
+		<th>
+			Ngày đặt hàng
+		</th>
+		<th>
+			Tên Khách hàng
+		</th>
+		<th>
+			Trạng thái
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		var product = new milkTea.Models.ModelController.ProductModel().GetProductById(item.ProductId);
+		var orderDetail = new milkTea.Models.ModelController.OrderModel().GetOrderDetailById(item.Orders_Detail);
+		var status = "";
+		<tr>
+			<td>
+				<img width="50" height="60" src="@product.Imgage_url" />
+			</td>
+			<td>
+				@product.Name
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@(product.Price * item.Amount)
+			</td>
+			<td>
+				@orderDetail.OrderDate
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => orderDetail.Customer)
+			</td>
+			<td>
+				@switch (item.Status)
+				{
+					case 0:
+						status = "Chờ xác nhận";
+						break;
+					case 1:
+						status = "Đang giao hàng";
+						break;
+					case 2:
+						status = "Giao thành công";
+						break;
+					case 3:
+						status = "Đã huỷ";
+						break;
+				}
+				@status
+			</td>
+
+			<td>
+				<a href="/Seller/OrderDetail?orderId=@item.OrderId">Chi tiết</a>
+			</td>
+
+
+
+
+		</tr>
+	}
+
+</table>

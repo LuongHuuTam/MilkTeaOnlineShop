@@ -26,6 +26,7 @@ namespace milkTea.Controllers
             return View(allProducts);
         }
 
+
         public ActionResult Category(int cat = 0, int page = 1, int pagesize = 6)
         {
             ViewBag.cat = cat;

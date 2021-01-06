@@ -1,0 +1,158 @@
+﻿@model milkTea.Models.Products_Detail
+
+@{
+	ViewBag.Title = "UpdateProduct";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+	<script>
+        $('#change-img').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            var proId = $(this).data('id');
+            finder.selectActionFunction = function (url) {
+
+                $.ajax({
+                    url: '/Seller/UpdateImg',
+                    type: 'POST',
+                    async: true,
+                    data: { proId: proId, img_url: url },
+                    success: function (msg) {
+                        if (msg == "true") {
+							alert("Cập nhật thành công");
+							$('#img_url').val(url);
+                            $('#avatar_img').attr("src", url);
+                        }
+                        else {
+                            alert("Cập nhật thất bại");
+                        }
+                    }
+                })
+            };
+            finder.popup();
+        });
+	</script>
+}
+
+<h2>Update Product</h2>
+
+
+<div class="container" style="padding-top: 1rem;">
+	<div class="row flex-lg-nowrap">
+		<div class="col">
+			<div class="row">
+				<div class="col mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="e-profile">
+								<div class="row">
+									<div class="col-12 col-sm-auto mb-3">
+										<div class="mx-auto" style="width: 140px;">
+											<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+												<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">
+													<img src="@Model.Imgage_url" alt="140x140" title="Đổi Avatar" id="avatar_img" style="width: 130px; height: 130px; object-fit: cover;" />
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+										<div class="text-center text-sm-left mb-2 mb-sm-0">
+
+											<div class="text-muted"><small>Last seen 2 hours ago</small></div>
+											<div class="mt-2">
+
+												<a class="btn btn-primary" id="change-img" href="#" data-id="@Model.ProductId">
+													<i class="fa fa-fw fa-camera"></i>
+													<span>Change Photo</span>
+												</a>
+											</div>
+										</div>
+										<div class="text-center text-sm-right">
+											<span class="badge badge-secondary">Sản phẩm mới</span>
+											<div class="text-muted"><small>Joined DataTime</small></div>
+										</div>
+									</div>
+								</div>
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a href="" class="active nav-link">Thông tin cơ bản</a></li>
+								</ul>
+								<div class="tab-content pt-3">
+									<div class="tab-pane active">
+										@{
+											var cateList = new milkTea.Models.ModelController.ProductModel().allCategory();
+											var sizeList = new milkTea.Models.ModelController.ProductModel().allSize();
+										}
+										@using (Html.BeginForm("UpdateProduct", "Seller", FormMethod.Post))
+										{
+											@Html.AntiForgeryToken()
+											@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+											@Html.HiddenFor(Model => Model.ProductId, new { @id = "proId" })
+											@Html.HiddenFor(Model => Model.Seller)
+											@Html.HiddenFor(Model => Model.Imgage_url, new { @id="img_url"})
+											<div class="row">
+												<div class="col">
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Tên sản phẩm</label>
+																@Html.TextBoxFor(Model => Model.Name, new { @class = "form-control", @value = Model.Name })
+																@Html.ValidationMessageFor(Model => Model.Name, "", new { @class = "text-danger" })
+
+															</div>
+														</div>
+														<div class="col">
+															<div class="form-group">
+																<label>Giá</label>
+																@Html.TextBoxFor(Model => Model.Price, new { @class = "form-control", @value = Model.Price })
+																@Html.ValidationMessageFor(Model => Model.Price, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Mô tả</label>
+																@Html.TextAreaFor(Model => Model.Desciption, new { @class = "form-control", @value = Model.Desciption })
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Loại</label>
+																@Html.DropDownListFor(Model => Model.CatId, new SelectList(cateList, "CatId", "CatName"),
+																						htmlAttributes: new { @class = "form-control" })
+															</div>
+														</div>
+														<div class="col mb-3">
+															<div class="form-group">
+																<label>Size</label>
+																@Html.DropDownListFor(Model => Model.Size, new SelectList(sizeList, "SizeName", "SizeName"),
+																						htmlAttributes: new { @class = "form-control" })
+															</div>
+														</div>
+														<div class="col mb-3">
+															<div class="form-group">
+																<label>Số lượng</label>
+																@Html.TextBoxFor(Model => Model.Quantity, new { @class = "form-control", @value = Model.Quantity })
+																@Html.ValidationMessageFor(Model => Model.Quantity, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col d-flex justify-content-end">
+															<button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+														</div>
+													</div>
+												</div>
+											</div>}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

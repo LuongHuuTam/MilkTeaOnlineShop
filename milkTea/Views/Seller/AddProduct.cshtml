@@ -1,0 +1,137 @@
+﻿@model milkTea.Models.Products_Detail
+
+@{
+	ViewBag.Title = "AddProductForm";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+	<script>
+        $('#img-btn').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#img_url').val(url);
+                $('#avatar_img').attr("src", url);
+            };
+            finder.popup();
+        })
+	</script>
+}
+<div class="container" style="padding-top: 1rem;">
+	<div class="row flex-lg-nowrap">
+		<div class="col">
+			<div class="row">
+				<div class="col mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="e-profile">
+								<div class="row">
+									<div class="col-12 col-sm-auto mb-3">
+										<div class="mx-auto" style="width: 140px;">
+											<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+												<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">
+													<img src="~/Photo/images/drinkDefault.png" alt="140x140" title="Đổi Avatar" id="avatar_img" style="width: 130px; height: 130px; object-fit: cover;" />
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+										<div class="text-center text-sm-left mb-2 mb-sm-0">
+
+											<div class="text-muted"><small>Last seen 2 hours ago</small></div>
+											<div class="mt-2">
+
+												<a class="btn btn-primary" id="img-btn" href="#">
+													<i class="fa fa-fw fa-camera"></i>
+													<span>Chọn ảnh</span>
+												</a>
+											</div>
+										</div>
+										<div class="text-center text-sm-right">
+											<span class="badge badge-secondary">Sản phẩm mới</span>
+											<div class="text-muted"><small>Joined DataTime</small></div>
+										</div>
+									</div>
+								</div>
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a href="" class="active nav-link">Thông tin cơ bản</a></li>
+								</ul>
+								<div class="tab-content pt-3">
+									<div class="tab-pane active">
+										@{
+											var cateList = new milkTea.Models.ModelController.ProductModel().allCategory();
+											var sizeList = new milkTea.Models.ModelController.ProductModel().allSize();
+										}
+										@using (Html.BeginForm("AddProduct", "Seller", FormMethod.Post))
+										{
+											@Html.AntiForgeryToken()
+											@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+											@Html.HiddenFor(Model => Model.Imgage_url, new { @id = "img_url" })
+											<div class="row">
+												<div class="col">
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Tên sản phẩm</label>
+																@Html.TextBoxFor(Model => Model.Name, new { @class = "form-control" })
+																@Html.ValidationMessageFor(Model => Model.Name, "", new { @class = "text-danger" })
+
+															</div>
+														</div>
+														<div class="col">
+															<div class="form-group">
+																<label>Giá</label>
+																@Html.TextBoxFor(Model => Model.Price, new { @class = "form-control" })
+																@Html.ValidationMessageFor(Model => Model.Price, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Mô tả</label>
+																@Html.TextAreaFor(Model => Model.Desciption, new { @class = "form-control" })
+															</div>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col">
+															<div class="form-group">
+																<label>Loại</label>
+																@Html.DropDownListFor(Model => Model.CatId, new SelectList(cateList, "CatId", "CatName"),
+																						htmlAttributes: new { @class = "form-control" })
+															</div>
+														</div>
+														<div class="col mb-3">
+															<div class="form-group">
+																<label>Size</label>
+																@Html.DropDownListFor(Model => Model.Size, new SelectList(sizeList, "SizeName", "SizeName"),
+																						htmlAttributes: new { @class = "form-control" })
+															</div>
+														</div>
+														<div class="col mb-3">
+															<div class="form-group">
+																<label>Số lượng</label>
+																@Html.TextBoxFor(Model => Model.Quantity, new { @class = "form-control" })
+																@Html.ValidationMessageFor(Model => Model.Quantity, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col d-flex justify-content-end">
+															<button class="btn btn-primary" type="submit">Thêm sản phẩm</button>
+														</div>
+													</div>
+												</div>
+											</div>}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
