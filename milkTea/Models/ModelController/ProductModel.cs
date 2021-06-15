@@ -138,8 +138,8 @@ namespace milkTea.Models.ModelController
             return product;
         }
         //---------
-        
-         public List<Size> allSize()
+
+        public List<Size> allSize()
         {
             return _context.Sizes.ToList();
         }

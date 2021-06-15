@@ -2710,13 +2710,11 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_LeftMenuCustomer.cshtml" />
-    <Content Include="Views\Shared\_LefrMenuSeller.cshtml" />
+    <Content Include="Views\Shared\_LeftMenuSeller.cshtml" />
     <Content Include="Views\Admin\ManageAccount.cshtml" />
     <Content Include="Views\Admin\CreateAccount.cshtml" />
     <Content Include="Views\Login\registerAccount.cshtml" />
     <Content Include="Views\Admin\ManageCategory.cshtml" />
-    <Content Include="Views\Home\AccountProfile.cshtml" />
-    <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\BagCart.cshtml" />
@@ -2725,6 +2723,12 @@
     <Content Include="Views\Customer\BuyProducts.cshtml" />
     <Content Include="Views\Customer\OrderMenu.cshtml" />
     <Content Include="Views\Customer\OrderDetails.cshtml" />
+    <Content Include="Views\Seller\Index.cshtml" />
+    <Content Include="Views\Seller\Shop.cshtml" />
+    <Content Include="Views\Seller\Order.cshtml" />
+    <Content Include="Views\Seller\OrderDetail.cshtml" />
+    <Content Include="Views\Seller\AddProduct.cshtml" />
+    <Content Include="Views\Seller\UpdateProduct.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\Login\Confirm.cshtml" />
     <Content Include="Views\Login\Done.cshtml" />
@@ -2732,7 +2736,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Photo\" />
-    <Folder Include="Views\Seller\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
