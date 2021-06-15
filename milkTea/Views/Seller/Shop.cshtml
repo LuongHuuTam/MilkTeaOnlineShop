@@ -1,0 +1,89 @@
+﻿@model IEnumerable<milkTea.Models.Products_Detail>
+@{
+	ViewBag.Title = "Shop";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Shop</h2>
+
+@{
+	if (Model.Count() > 0)
+	{
+		<table class="table">
+			<tr>
+				<th>
+					<label>Mã sản phẩm</label>
+				</th>
+				<th>
+					<label>Ảnh</label>
+				</th>
+				<th>
+					<label>Tên sản phẩm</label>
+				</th>
+				<th>
+					<label>Giá</label>
+				</th>
+				<th>
+					<label>Mô tả</label>
+				</th>
+				<th>
+					<label>Size</label>
+				</th>
+				<th>
+					<label>Số lượng</label>
+				</th>
+				<th>
+					<label>Loại</label>
+				</th>
+				<th></th>
+			</tr>
+
+			@foreach (var item in Model)
+			{
+				milkTea.Models.MilkTeaModel db = new milkTea.Models.MilkTeaModel();
+				var cat = db.Categories.Find(item.CatId);
+
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.ProductId)
+					</td>
+					<td>
+						<img width="50" height="60" src="@item.Imgage_url" />
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Price)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Desciption)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Size)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Quantity)
+					</td>
+					<td>
+						@cat.CatName
+					</td>
+					<td>
+						<a href="/Seller/UpdateProduct?productId=@item.ProductId">Chỉnh sửa</a>
+					</td>
+					<td>
+						<a href="/Seller/DeleteProduct?productId=@item.ProductId">Xoá</a>
+					</td>
+				</tr>
+
+			}
+		</table>
+
+	}
+	else
+	{
+		<div>
+			<h2>Cửa hàng chưa có sản phẩm nào</h2>
+		</div>
+	}
+}

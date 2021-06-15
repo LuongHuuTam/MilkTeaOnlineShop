@@ -1,0 +1,91 @@
+﻿@model milkTea.Models.Order
+@{
+	ViewBag.Title = "OrderDetail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chi tiết đơn hàng</h2>
+@{
+	var product = new milkTea.Models.ModelController.ProductModel().GetProductById(Model.ProductId);
+	var orderDetail = new milkTea.Models.ModelController.OrderModel().GetOrderDetailById(Model.Orders_Detail);
+	var customer = new milkTea.Models.ModelController.AccountModel().getAccount(orderDetail.Customer);
+	var shipMethod = new milkTea.Models.ModelController.OrderModel().GetShipMethodById(orderDetail.ShipId);
+}
+<div class="card-deck" id="oder">
+	<div class="card">
+		<div class="card-header py-3">
+			<h5>Sản phẩm</h5>
+		</div>
+		<img src="@product.Imgage_url" class="photo" />
+		<div class="card-body">
+			<p>Tên sản phẩm: @product.Name</p>
+			<p>Số lượng: @Model.Amount</p>
+			<p>Đơn giá: @product.Price</p>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header py-3">
+			<h5>Thông tin khách hàng</h5>
+		</div>
+		<img src="@customer.Avatar_url" class="photo" />
+		<div class="card-body">
+			<p>Tài khoản đặt hàng: @customer.Username</p>
+			<p>Tên khách hàng: @customer.LastName @customer.FirstName</p>
+			<p>Số điện thoại: @customer.PhoneNumber</p>
+			<p>Email: @customer.Email</p>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header py-3">
+			<h5>Thông tin đơn hàng</h5>
+		</div>
+		<div class="card-body">
+			<p>Ngày đặt hàng: @orderDetail.OrderDate</p>
+			<p>Hình thức giao hàng: @shipMethod.Name</p>
+			<p>Thành tiền: @(Model.Amount*product.Price)</p>
+			<p>Phí vận chuyển: @shipMethod.Fee đ</p>
+			<h5 style="color:red">Tổng thanh toán: @(Model.Amount*product.Price + shipMethod.Fee) đ</h5>
+			@if (Model.Status == 0)
+			{
+
+				<a style="width:200px" href="/Seller/Confirm?orderId=@Model.OrderId&newStatus=1" class="btn btn-primary btn-user btn-block">Xác nhận</a>
+				<a style="width:200px" href="/Seller/Confirm?orderId=@Model.OrderId&newStatus=3" class="btn btn-primary btn-user btn-block">Huỷ đơn</a>
+			}
+			else if (Model.Status == 1)
+			{
+
+				<a style="width:200px" href="/Seller/Confirm?orderId=@Model.OrderId&newStatus=2" class="btn btn-primary btn-user btn-block">Đã giao</a>
+				<a style="width:200px" href="/Seller/Confirm?orderId=@Model.OrderId&newStatus=3" class="btn btn-primary btn-user btn-block">Huỷ đơn</a>
+
+			}
+			else
+			{
+
+				<a style="width:200px" href="/Seller/Order" class="btn btn-primary btn-user btn-block">Quay lại</a>
+
+			}
+		</div>
+	</div>
+</div>
+
+
+<style type="text/css">
+
+	.photo {
+		position: relative;
+		width: 120px;
+		height: 150px;
+		top: 15px;
+		left: 80px;
+	}
+
+	#oder {
+		width: 1100px;
+		height: 450px;
+	}
+
+	.card {
+		width: 1100px;
+		height: 450px;
+	}
+</style>

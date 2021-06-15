@@ -10,18 +10,15 @@
 			e.preventDefault();
 			$.ajax({
 				url: '/Customer/checkProduct',
-				//type: 'POST',
 				async: true,
-				//data: { id: id },
 				success: function (msg) {
 					if (msg == 'false') {
-						alert('Số lượng sản phẩm không đủ. Thử lại sau!!!');
+						alert('Số lượng sản phẩm không đủ. Nhập lại!!!');
 					}
 					else {
-						alert('Xóa thành công!!!');
 						setTimeout(function () {
 							window.location.href = '' + msg + '';
-						}, 1000);
+						}, 10);
 					}
 				}
 			})
@@ -31,7 +28,7 @@
 
 @if (Model == null || Model.Items.Count() == 0)
 {
-	<h2 style="padding: 2rem;">Chưa có sản phẩm nào trong giỏ hàng</h2>
+	<h2 class="p-3" style="font-family: cursive; color:deeppink">Chưa có sản phẩm nào trong giỏ hàng</h2>
 }
 else
 {
@@ -79,6 +76,8 @@ else
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<button id="buy" class="btn btn-primary" style="float: right">Mua hàng</button>
+		<form>
+			<button formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
+		</form>
 	</div>
 }
