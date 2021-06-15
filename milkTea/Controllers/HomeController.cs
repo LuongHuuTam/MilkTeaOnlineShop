@@ -22,7 +22,9 @@ namespace milkTea.Controllers
                 var product = new ProductModel().allProductsOfAnotherUser(userInDb.Username, page, pagesize);
                 return View(product);
             }
-            var allProducts = new ProductModel().allProducts(page, pagesize);           
+            var allProducts = new ProductModel().allProducts(page, pagesize);
+            if (allProducts == null)
+                allProducts = new List<Products_Detail>();
             return View(allProducts);
         }
 
@@ -32,10 +34,14 @@ namespace milkTea.Controllers
             ViewBag.Controller = "Home";
             ViewBag.Type = "Customer";
             var model = new ProductModel().getProByCat(cat, page, pagesize);
+            if (model == null)
+                model = new List<Products_Detail>();
             ViewBag.Name = new ProductModel().getNameByCatID(cat);
             return View("Index", model);
         }
 
+
+        [ValidateInput(false)]
         public ActionResult ProductsOfSearch(string search = "", int page = 1, int pagesize = 6)
         {
             ViewBag.Name = "Kết quả tìm kiếm cho " + search;
@@ -48,6 +54,8 @@ namespace milkTea.Controllers
             else
             {
                 var pro = new ProductModel().searchProducts(search, page, pagesize);
+                if (pro == null)
+                    pro = new List<Products_Detail>();
                 return View("Index", pro);
             }
         }

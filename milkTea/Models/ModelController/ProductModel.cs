@@ -117,7 +117,7 @@ namespace milkTea.Models.ModelController
         public string getNameByCatID(int id)
         {
             var res = _context.Categories.Where(x => x.CatId == id).SingleOrDefault();
-            return res.CatName;
+            return res==null? "" : res.CatName;
         }
 
         public IEnumerable<Products_Detail> searchProducts(string serch, int page, int pagesize)
