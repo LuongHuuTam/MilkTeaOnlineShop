@@ -49,8 +49,9 @@
 					<td><img src="@items.Products_Detail.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
 					<td>@items.Products_Detail.Price</td>
 					<td>
-						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
+						@using (Html.BeginForm("UpdateAmountCard", "Cart", FormMethod.Post))
 						{
+							@Html.AntiForgeryToken()
 							<input type="hidden" value="@items.ProductId" name="ProductId" />
 							<input type="number" min="1" max="@items.Products_Detail.Quantity" value="@items.Amount" name="Amount" style="width: 40px;" />
 							<input type="submit" value="Cập nhật" class="btn btn-primary" />

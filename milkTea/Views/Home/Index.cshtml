@@ -49,9 +49,12 @@
 }
 <h2 class="p-3" style="font-family: cursive; color:deeppink">@ViewBag.Name</h2>
 
-<div class="wrapper" id="body">
-	@foreach (var items in Model)
-	{
+@if (Model != null)
+{
+	<div class="wrapper" id="body">
+
+		@foreach (var items in Model)
+		{
 		<div class="card">
 			<img src="@items.Imgage_url" alt="">
 			<div class="content">
@@ -62,22 +65,24 @@
 					</div>
 					<div class="price">@items.Price &nbsp;VNĐ</div>
 				</div>
-				<form>
+				<div>
 					<div class="buttons">
-						<button type="submit" class="cart-btn buyNow" data-id="@items.ProductId" >
+						<button type="submit" class="cart-btn buyNow" data-id="@items.ProductId">
 							Mua ngay
 						</button>
 						<button class="cart-btn addToCart" data-id="@items.ProductId">
 							Thêm vào giỏ hàng
 						</button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
-	}
-</div>
+		}
 
-<div style="margin:1rem 3rem 1rem 1rem; float:right">
-	@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))
+	</div>
 
-</div>
+	<div style="margin:1rem 3rem 1rem 1rem; float:right">
+		@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))
+
+	</div>
+}

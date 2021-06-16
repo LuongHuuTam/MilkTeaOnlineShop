@@ -87,7 +87,9 @@
 
                         <!-- Topbar Search -->
 						<div class="d-none d-sm-inline-block form-inline mr-auto ml-md-2 my-2 my-md-0 mw-100 navbar-search">
-							<form action="/Home/ProductSOfSearch" class="d-none d-sm-inline-block form-inline navbar-search mb-3">
+							@using (Html.BeginForm("ProductSOfSearch", "Home", FormMethod.Post, new { @class= "d-none d-sm-inline-block form-inline navbar-search mb-3" }))
+							{
+                                @Html.AntiForgeryToken()
 								<div class="input-group">
 									<input type="text" class="form-control bg-light small" placeholder="Tìm kiếm..." name="search" value="@ViewBag.search">
 									<div class="input-group-append">
@@ -96,12 +98,12 @@
 										</button>
 									</div>
 								</div>
-                            </form>
+							}
 						</div>
                         @{
-                            milkTea.Models.User_Accounts db = HttpContext.Current.Session["user"] as milkTea.Models.User_Accounts;
-                            if (db == null)
-                            {
+								milkTea.Models.User_Accounts db = HttpContext.Current.Session["user"] as milkTea.Models.User_Accounts;
+							if (db == null)
+							{
                                 <a class="nav-item no-arrow p-2 " href="/login/index">
                                     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Đăng nhập

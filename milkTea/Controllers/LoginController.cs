@@ -17,7 +17,9 @@ namespace milkTea.Controllers
         {
             return View();
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(User_Accounts us)
         {
             User_Accounts res = new AccountModel().login(us.Username, Encryptor.MD5Hash(us.Password));
@@ -58,7 +60,9 @@ namespace milkTea.Controllers
         {
             return View();
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult registerAccount(User_Accounts model, string rePass)
         {
             if (model.Password != rePass || model.Password == null)

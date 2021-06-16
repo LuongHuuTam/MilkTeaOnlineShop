@@ -52,8 +52,9 @@ else
 					<td><img src="@items.productsInCart.Imgage_url" style="width: 100px; height: 100px; object-fit: cover" /></td>
 					<td>@items.productsInCart.Price</td>
 					<td>
-						@using (Html.BeginForm("UpdateAmountCard", "Cart"))
+						@using (Html.BeginForm("UpdateAmountCard", "Cart", FormMethod.Post))
 						{
+							@Html.AntiForgeryToken()
 							<input type="hidden" value="@items.productsInCart.ProductId" name="ProductId" />
 							<input type="number" min="1" value="@items.amountInCart" name="Amount" style="width: 40px;" />
 							<input type="submit" value="Cập nhật" class="btn btn-primary" />
@@ -76,8 +77,6 @@ else
 		</tfoot>
 	</table>
 	<div style="padding-right: 5rem;">
-		<form>
-			<button formaction="@Url.Action("BuyProducts", "Customer")" class="btn btn-primary" style="float: right">Mua hàng</button>
-		</form>
+		<button onclick="location.href='@Url.Action("BuyProducts", "Customer")'" class="btn btn-primary" style="float: right">Mua hàng</button>
 	</div>
 }

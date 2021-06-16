@@ -82,7 +82,7 @@ namespace milkTea.Controllers
             return Content("/Customer/BuyProducts");
         }
 
-        // mua hàng
+        //mua hàng
         public ActionResult BuyProducts()
         {
             ViewBag.Type = "Customer";
@@ -94,7 +94,7 @@ namespace milkTea.Controllers
                 carts = allCart,
                 user = userInDb
             };
-            ViewBag.TotalMoney = new CartModel().TotalMoneyInCart();
+            ViewBag.TotalMoney = new CartModel().TotalMoneyInCart(userInDb.Username);
             return View(model);
         }
 
@@ -123,7 +123,7 @@ namespace milkTea.Controllers
             orderDetail.OrderDate = DateTime.Now;
             orderDetail.Note = order.detail.Note;
             orderDetail.TotalAmount = new CartModel().TotalAmountCartInDB(userInDb.Username);
-            orderDetail.TotalMoney = new CartModel().TotalMoneyInCart();
+            orderDetail.TotalMoney = new CartModel().TotalMoneyInCart(userInDb.Username);
             if (new OrderModel().AddOrderDetail(orderDetail))
             {
                 foreach (var item in carts)

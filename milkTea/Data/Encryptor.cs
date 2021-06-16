@@ -11,6 +11,11 @@ namespace milkTea.Assets
     {
         public static string MD5Hash(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
             MD5 md5 = new MD5CryptoServiceProvider();
 
             //compute hash from the bytes of text  

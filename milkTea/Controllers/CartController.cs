@@ -36,7 +36,7 @@ namespace milkTea.Controllers
             else
             {
                 List<Cart> allcartInDb = new CartModel().AllCartOfUser(userInDb.Username);
-                ViewBag.TotalMoney = new CartModel().TotalMoneyInCart();
+                ViewBag.TotalMoney = new CartModel().TotalMoneyInCart(userInDb.Username);
                 return View("CartInDb", allcartInDb);
             }
         }
@@ -128,15 +128,27 @@ namespace milkTea.Controllers
             return Content("/Cart/Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateAmountCard(FormCollection form)
         {
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
             if (userInDb == null)
             {
                 CartModel cart = Session["Cart"] as CartModel;
-                int proId = int.Parse(form["ProductId"]);
-                int amount = int.Parse(form["Amount"]);
-                cart.UpdateAmount(proId, amount);
+                //int proId = int.Parse(form["ProductId"]);
+                //int amount = int.Parse(form["Amount"]);
+                int proId = 1, amount = 1;
+                var isId = int.TryParse(form["ProductId"], out proId);
+                var isAmount = int.TryParse(form["Amount"], out amount);
+
+                if (isId == true && isAmount == true)
+                {
+                    if (cart != null)
+                    {
+                        cart.UpdateAmount(proId, amount);
+                    }
+                }
                 return RedirectToAction("Index", "Cart");
             }
             else
@@ -156,7 +168,10 @@ namespace milkTea.Controllers
             if (userInDb == null)
             {
                 CartModel cart = Session["Cart"] as CartModel;
-                cart.RemoveCartItem(id);
+                if (cart != null)
+                {
+                    cart.RemoveCartItem(id);
+                }              
                 return RedirectToAction("Index", "Cart");
             }
             else

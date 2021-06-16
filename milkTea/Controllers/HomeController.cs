@@ -37,6 +37,8 @@ namespace milkTea.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ProductsOfSearch(string search = "", int page = 1, int pagesize = 6)
         {
             ViewBag.Name = "Kết quả tìm kiếm cho " + search;

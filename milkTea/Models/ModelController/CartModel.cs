@@ -89,9 +89,9 @@ namespace milkTea.Models.ModelController
         }
 
         //Thực hiện trong db
-        public float TotalMoneyInCart()
+        public float TotalMoneyInCart(string username)
         {
-            var total = _context.Carts.Sum(t => (double?)t.Products_Detail.Price * t.Amount) ?? 0f;
+            var total = _context.Carts.Where(u => u.Username == username).Sum(t => (double?)t.Products_Detail.Price * t.Amount) ?? 0f;
             return (float)total;
         }
 
