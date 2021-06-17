@@ -27,14 +27,10 @@ namespace milkTea.Controllers
             ViewBag.Type = "Customer";
             ViewBag.Controller = "Home";
             User_Accounts userInDb = HttpContext.Session["user"] as User_Accounts;
-            if (user.FirstName == null || user.LastName == null ||
-                user.PhoneNumber == null || user.Email == null || user.Address == null)
+            ModelState["Password"].Errors.Clear();
+            if (!ModelState.IsValid)
             {
-                user.FirstName = "";
-                user.LastName = "";
-                user.PhoneNumber = "";
-                user.Email = "";
-                user.Address = "";
+                return View(userInDb);
             }
             userInDb.FirstName = user.FirstName;
             userInDb.LastName = user.LastName;

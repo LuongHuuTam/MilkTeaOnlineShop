@@ -1,4 +1,4 @@
-namespace milkTea.Models
+﻿namespace milkTea.Models
 {
     using System;
     using System.Collections.Generic;
@@ -27,18 +27,28 @@ namespace milkTea.Models
         public string Password { get; set; }
 
         [StringLength(200)]
+            [Required(ErrorMessage = "First name is required")]
+        [RegularExpression(@"^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$", ErrorMessage = "Invalid first name")]
         public string FirstName { get; set; }
 
         [StringLength(200)]
+        [Required(ErrorMessage = "Last name is required")]
+        [RegularExpression(@"^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$", ErrorMessage = "Invalid last name")]
         public string LastName { get; set; }
 
         [StringLength(200)]
+        [Required(ErrorMessage = "Email is required")]
+        [RegularExpression("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
         [StringLength(200)]
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Invalid phone number")]
         public string PhoneNumber { get; set; }
 
         [StringLength(200)]
+        [Required(ErrorMessage = "Address is required")]
+        [RegularExpression(@"^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$", ErrorMessage = "Invalid last name")]
         public string Address { get; set; }
 
         [StringLength(100)]
