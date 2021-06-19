@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using milkTea.Models.ModelController;
+using System.Web;
 using System.Web.Mvc;
 
 namespace milkTea
@@ -7,7 +8,7 @@ namespace milkTea
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new HandleErrorAttribute());    
         }
     }
 }
