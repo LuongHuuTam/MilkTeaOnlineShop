@@ -22,6 +22,7 @@ namespace milkTea.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Index(User_Accounts user)
         {
             ViewBag.Type = "Customer";

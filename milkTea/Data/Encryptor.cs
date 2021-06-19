@@ -9,7 +9,7 @@ namespace milkTea.Assets
 {
     public class Encryptor
     {
-        public static string MD5Hash(string text)
+        public static string MD5Hash(string text="")
         {
             if (string.IsNullOrEmpty(text))
             {

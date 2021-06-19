@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using milkTea.Assets;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
@@ -129,6 +130,20 @@ namespace milkTea.Models.ModelController
             catch
             {
                 return false;
+            }
+        }
+
+        public bool checkEmail(string email)
+        {
+            return _context.User_Accounts.Any(x => x.Email == email);
+        }
+        public void resetPass(string email)
+        {
+            var user = _context.User_Accounts.Where(x => x.Email == email).FirstOrDefault();
+            if (user!=null)
+            {
+                user.Password= Encryptor.MD5Hash("Password@123");
+                _context.SaveChanges();
             }
         }
     }

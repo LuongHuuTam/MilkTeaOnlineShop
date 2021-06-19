@@ -153,6 +153,7 @@
     <Compile Include="Models\ModelController\CartModel.cs" />
     <Compile Include="Models\ModelController\OrderModel.cs" />
     <Compile Include="Models\ModelController\ProductModel.cs" />
+    <Compile Include="Models\ModelController\ResetPass.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Orders_Detail.cs" />
     <Compile Include="Models\Products_Detail.cs" />
@@ -162,11 +163,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\csss\styles.css" />
     <Content Include="Assets\css\Categorys.css" />
     <Content Include="Assets\css\ProductCard.css" />
     <Content Include="Assets\css\ProfileCard.css" />
     <Content Include="Assets\css\sb-admin-2.css" />
     <Content Include="Assets\css\sb-admin-2.min.css" />
+    <Content Include="Assets\jss\scripts.js" />
     <Content Include="Assets\js\AjaxCreateAccount.js" />
     <Content Include="Assets\js\demo\chart-area-demo.js" />
     <Content Include="Assets\js\demo\chart-bar-demo.js" />
@@ -2726,6 +2729,9 @@
     <Content Include="Views\Seller\OrderDetail.cshtml" />
     <Content Include="Views\Seller\AddProduct.cshtml" />
     <Content Include="Views\Seller\UpdateProduct.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\Login\Confirm.cshtml" />
+    <Content Include="Views\Login\Done.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
